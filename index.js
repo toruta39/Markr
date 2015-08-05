@@ -10,8 +10,8 @@ require('electron-debug')();
 
 function createMainWindow () {
   const win = new BrowserWindow({
-    width: 600,
-    height: 400,
+    width: 1024,
+    height: 768,
     resizable: false
   });
 
