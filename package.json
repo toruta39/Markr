@@ -16,7 +16,7 @@
   },
   "scripts": {
     "start": "electron .",
-    "watch": "watchify client/main.js -d -t babelify -v -o client/bundle.js",
+    "watch": "watchify src/main.js -d -t babelify -v -o dist/bundle.js",
     "build": "electron-packager . $npm_package_productName --out=dist --ignore=dist --prune --asar --all --version=0.30.0"
   },
   "files": [
