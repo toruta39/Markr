@@ -1,4 +1,4 @@
-import { ADD_NODE, SELECT_NODE } from '../actions';
+import { ADD_NODE, SELECT_NODE, RESET_NODES } from '../actions';
 
 export default function nodes(state=[], action) {
   switch (action.type) {
@@ -19,7 +19,9 @@ export default function nodes(state=[], action) {
         },
         ...state.slice(action.index + 1)
       ];
+    case RESET_NODES:
+      return action.nodes || [];
     default:
-      return status;
+      return state;
   }
 }

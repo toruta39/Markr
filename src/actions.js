@@ -4,6 +4,7 @@
 
 export const ADD_NODE = 'ADD_NODE';
 export const SELECT_NODE = 'SELECT_NODE';
+export const RESET_NODES = 'RESET_NODES';
 export const SET_VISIBILITY_FILTER = 'SET_VISIBILITY_FILTER';
 
 /*
@@ -19,12 +20,16 @@ export const VisibilityFilters = {
  * action creators
  */
 
-export function addNode(text) {
-  return { type: ADD_NODE, text };
+export function addNode(name) {
+  return { type: ADD_NODE, name };
 }
 
 export function selectNode(index) {
   return { type: SELECT_NODE, index };
+}
+
+export function resetNodes(nodes) {
+  return { type: RESET_NODES, nodes };
 }
 
 export function setVisibilityFilter(filter) {

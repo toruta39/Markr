@@ -1,27 +1,27 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
-import NodeActions from '../action/NodeActions';
-
-export default class Node extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.onClick = this.onClick.bind(this);
-  }
-
-  onClick(e) {
-    this.props.onNodeClick(e, {id: this.props.id});
-  }
-
+export default class Node extends Component {
   render() {
     return (
-      <li className={classNames({
-        'node': true,
-        'node--selected': this.props.selected
-      })} onClick={this.onClick}>
-        <div className="node__name">{this.props.id}: {this.props.name}</div>
+      <li
+        className={classNames({
+          'node': true,
+          'node--selected': this.props.selected
+        })}
+        onClick={e =>
+          this.props.onClick(e)
+        }>
+        <div className="node__name">
+          {this.props.name}
+        </div>
       </li>
     );
   }
 }
+
+Node.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  selected: PropTypes.bool.isRequired
+};

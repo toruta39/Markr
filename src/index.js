@@ -1,17 +1,42 @@
 'use strict';
 
-var nRequire = require; // for requiring packages from node env
+const nRequire = require; // for requiring packages from node env
 
-const React = require('react');
-const ReactDOM = require('react-dom');
-// const App = require('./component/App');
-// ReactDOM.render(<App />, document.getElementById('app'));
+import 'babel/polyfill';
+import uuid from 'uuid';
+import React from 'react';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import getImageData from './util/getImageData';
+
 
 import reducer from './reducer';
+import App from './container/App';
 
-console.log(reducer);
+let store = createStore(reducer, {
+  nodes: [
+    {
+      name: 'first',
+      selected: false
+    },
+    {
+      name: 'second',
+      selected: true
+    }
+  ],
+  visibilityFilter: 'SHOW_ALL'
+});
 
-const uuid = require('uuid').v1();
+React.render(
+  <Provider store={store}>
+    {() => <App />}
+  </Provider>,
+  document.getElementById('app')
+);
+
+import { addNode, resetNodes } from './actions';
+
+const id = uuid.v1();
 
 let holder = document.getElementById('holder');
 let status = document.getElementById('status');
@@ -39,18 +64,18 @@ holder.ondrop = function (e) {
     console.log(psd.tree().export());
 
     status.innerText = 'Converting to PNG';
-    return psd.image.saveAsPng(`./.tmp/${uuid}.png`);
+    return psd.image.saveAsPng(`./.tmp/${id}.png`);
   }).then(function() {
     status.innerText = '';
     return new Promise(function(resolve, reject) {
       let img = new Image();
       img.onload = function() {
-        resolve(require('./util/getImageData')(this));
+        resolve(getImageData(this));
       };
       img.onerror = function(e) {
         reject(e);
       };
-      img.src = `./.tmp/${uuid}.png`;
+      img.src = `./.tmp/${id}.png`;
     });
   }).then(function(imageData) {
     ctx.putImageData(imageData, 0, 0);

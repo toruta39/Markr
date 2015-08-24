@@ -1,5 +1,3 @@
-'use strict';
-
 export default function() {
   if (arguments[0] instanceof Image) {
     let image = arguments[0];
