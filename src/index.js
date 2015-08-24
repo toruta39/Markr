@@ -4,9 +4,12 @@ var nRequire = require; // for requiring packages from node env
 
 const React = require('react');
 const ReactDOM = require('react-dom');
-const App = require('./component/App');
+// const App = require('./component/App');
+// ReactDOM.render(<App />, document.getElementById('app'));
 
-ReactDOM.render(<App />, document.getElementById('app'));
+import reducer from './reducer';
+
+console.log(reducer);
 
 const uuid = require('uuid').v1();
 

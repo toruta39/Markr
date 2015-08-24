@@ -16,18 +16,7 @@ export default class Hierachy extends React.Component {
 
     this.onChange = this.onChange.bind(this);
     this.onClick = this.onClick.bind(this);
-
-    defineBound({
-      onNodeClick: function(e, data) {
-        e.preventDefault();
-
-        console.log('%s %s %s', e.button, e.shiftKey, e.ctrlKey);
-
-        if (e.button === 0) {
-          NodeActions.select(data.id);
-        }
-      }
-    }, this);
+    this.onNodeClick = this.onNodeClick.bind(this);
   }
 
   componentDidMount() {
@@ -36,6 +25,16 @@ export default class Hierachy extends React.Component {
 
   componentWillUnmount() {
     NodeStore.removeListener('change', this.onChange);
+  }
+
+  onNodeClick(e, data) {
+    e.preventDefault();
+
+    console.log('%s %s %s', e.button, e.shiftKey, e.ctrlKey);
+
+    if (e.button === 0) {
+      NodeActions.select(data.id);
+    }
   }
 
   onChange() {
