@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 
-import fileStatus from './fileStatus';
+import file from './file';
 import nodes from './nodes';
 import visibilityFilter from './visibilityFilter';
 
 const reducer = combineReducers({
-  fileStatus,
+  file,
   nodes,
   visibilityFilter
 });

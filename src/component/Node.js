@@ -13,7 +13,7 @@ export default class Node extends Component {
           this.props.onClick(e)
         }>
         <div className="node__name">
-          {this.props.name}
+          {this.props.type}: {this.props.name}
         </div>
       </li>
     );
@@ -23,5 +23,6 @@ export default class Node extends Component {
 Node.propTypes = {
   onClick: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
   selected: PropTypes.bool.isRequired
 };

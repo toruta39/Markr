@@ -18,14 +18,12 @@ export default function nodes(state=[], action) {
         }
       ];
     case SELECT_NODE:
-      return [
-        ...state.slice(0, action.index),
-        {
-          ...state[action.index],
-          selected: true
-        },
-        ...state.slice(action.index + 1)
-      ];
+      return state.map((node, i) => {
+        return {
+          ...node,
+          selected: action.index === i
+        };
+      });
     case RESET_NODES:
       return action.nodes || [];
     default:
@@ -37,15 +35,17 @@ function parsePSDTreeToNodes(tree, nodes=[]) {
   let parentIndex = nodes.length - 1;
 
   tree.forEach(leaf => {
-    nodes.push({
+    let node = {
       ...leaf,
       parent: parentIndex,
       selected: false
-    });
+    };
+
+    delete node.children;
+    nodes.push(node);
 
     if (leaf.children) {
       parsePSDTreeToNodes(leaf.children, nodes);
-      delete leaf.children;
     }
   });
 
