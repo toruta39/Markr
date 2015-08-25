@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import DragAndDrop from '../component/DragAndDrop';
 import Hierarchy from '../component/Hierarchy';
-import { addNode, selectNode, setVisibilityFilter, VisibilityFilters } from '../actions';
+import { openFile, selectNode, setVisibilityFilter, VisibilityFilters } from '../actions';
 
 class App extends Component {
   render() {
@@ -9,6 +10,8 @@ class App extends Component {
 
     return (
       <div>
+        <DragAndDrop
+          onDrop={file => dispatch(openFile(file))} />
         <Hierarchy
           nodes={visibleNodes}
           onNodeClick={index =>
