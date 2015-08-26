@@ -1,4 +1,7 @@
 const nRequire = require; // for requiring packages from node env
+const psd = nRequire('psd');
+const ipc = nRequire('ipc');
+const fs = nRequire('fs');
 
 import uuid from 'uuid';
 
@@ -12,6 +15,8 @@ export const SET_FILE_HIERARCHY = 'SET_FILE_HIERARCHY';
 export const SET_FILE_PREVIEW = 'SET_FILE_PREVIEW';
 export const SELECT_NODE = 'SELECT_NODE';
 export const EXPORT_NODE_AS_IMAGE = 'EXPORT_NODE_AS_IMAGE';
+export const EXPORT_NODE_AS_IMAGE_SUCCESS = 'EXPORT_NODE_AS_IMAGE_SUCCESS';
+export const EXPORT_NODE_AS_IMAGE_ERROR = 'EXPORT_NODE_AS_IMAGE_ERROR';
 export const RESET_HIERARCHY = 'RESET_HIERARCHY';
 export const SET_VISIBILITY_FILTER = 'SET_VISIBILITY_FILTER';
 
@@ -30,10 +35,10 @@ export const VisibilityFilters = {
 
 export function openFile(file) {
   return dispatch => {
-    let id = uuid.v1();
-    let imgPath = `./.tmp/${id}.png`;
+    const id = uuid.v1();
+    const imgPath = `./.tmp/${id}.png`;
 
-    nRequire('psd').open(file.path).then(function(psd) {
+    psd.open(file.path).then(function(psd) {
       dispatch(setFilePsdInstance(psd));
       dispatch(setFileHierarchy(psd.tree().export()));
       return psd.image.saveAsPng(imgPath);
@@ -43,7 +48,7 @@ export function openFile(file) {
       console.error('psd error', err);
     });
 
-    dispatch({ type: OPEN_FILE, file });
+    dispatch({ type: OPEN_FILE, id });
   }
 }
 
@@ -66,9 +71,13 @@ export function selectNode(index) {
 export function exportNodeAsImage(index) {
   return (dispatch, getState) => {
     const state = getState();
-    const psd = state.file.psdInstance;
+    let psdNode = state.file.psdInstance.tree().descendants()[index];
 
-    // TODO
+    let path = ipc.sendSync('application:select-directory', 'ping');
+
+    psdNode.layer.image.saveAsPng(`${path}/${psdNode.name}.png`)
+    .then(() => dispatch({ type: EXPORT_NODE_AS_IMAGE_SUCCESS }))
+    .catch(() => dispatch({ type: EXPORT_NODE_AS_IMAGE_ERROR }));
 
     dispatch({ type: EXPORT_NODE_AS_IMAGE, index });
   }

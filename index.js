@@ -1,6 +1,8 @@
 'use strict';
 const app = require('app');
 const BrowserWindow = require('browser-window');
+const ipc = require('ipc');
+const dialog = require('dialog');
 const mkdirp = require('mkdirp');
 const rimraf = require('rimraf');
 
@@ -52,6 +54,11 @@ app.on('activate-with-no-open-windows', function () {
 app.on('ready', function () {
   mkdirp('./.tmp', '0777', function(err) {
     if (err) console.error(err);
+  });
+
+  ipc.on('application:select-directory', function(event, arg) {
+    console.log(arg);
+    event.returnValue = dialog.showOpenDialog({ properties: [ 'createDirectory', 'openDirectory' ]});
   });
 
   mainWindow = createMainWindow();

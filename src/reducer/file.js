@@ -1,6 +1,7 @@
 import { OPEN_FILE, SET_FILE_HIERARCHY, SET_FILE_PSD_INSTANCE, SET_FILE_PREVIEW, SELECT_NODE } from '../actions';
 
 const initialState = {
+  id: null,
   isLoadingHierarchy: false,
   isLoadingFilePreview: false,
   psdInstance: null,
@@ -14,7 +15,8 @@ export default function file(state=initialState, action) {
       return {
         ...state,
         isLoadingHierarchy: true,
-        isLoadingFilePreview: true
+        isLoadingFilePreview: true,
+        id: action.id
       };
     case SET_FILE_HIERARCHY:
       return {
