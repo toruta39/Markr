@@ -1,23 +1,30 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { openFile, selectNode, setVisibilityFilter, VisibilityFilters } from '../actions';
+import { openFile, selectNode, exportNodeAsImage, setVisibilityFilter, VisibilityFilters } from '../actions';
 import DragAndDrop from '../component/DragAndDrop';
+import PreviewImage from '../component/PreviewImage';
 import Hierarchy from '../component/Hierarchy';
+import Node from '../component/Node';
 import Detail from '../component/Detail';
 
 class App extends Component {
   render() {
-    const { dispatch, selectedNode, visibleNodes, visibilityFilter } = this.props;
+    const { dispatch, file, selectedNode, visibleNodes, visibilityFilter } = this.props;
 
     return (
       <div>
         <DragAndDrop
           onDrop={file => dispatch(openFile(file))} />
-        <Hierarchy
-          nodes={visibleNodes}
-          onNodeClick={index =>
-            dispatch(selectNode(index))
-          } />
+        <PreviewImage src={file.previewImagePath} />
+        <Hierarchy>
+          {visibleNodes.map((node, index) =>
+            <Node
+              {...node}
+              key = {index}
+              onClick={() => dispatch(selectNode(index))}
+              onExportAsImage={() => dispatch(exportNodeAsImage(index))} />
+          )}
+        </Hierarchy>
         <Detail
           node={selectedNode} />
       </div>
@@ -40,6 +47,7 @@ function filterVisibleNodes(nodes, filter) {
 
 function select(state) {
   return {
+    file: state.file,
     selectedNode: filterSelectedNode(state.nodes, state.file.selectedNodeIndex),
     visibleNodes: filterVisibleNodes(state.nodes, state.visibilityFilter),
     visibilityFilter: state.visibilityFilter

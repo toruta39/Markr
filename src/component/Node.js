@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
+import NodeExportAsImageButton from './NodeExportAsImageButton';
+
 export default class Node extends Component {
   render() {
     return (
@@ -9,12 +11,15 @@ export default class Node extends Component {
           'node': true,
           'node--selected': this.props.selected
         })}
-        onClick={e =>
-          this.props.onClick(e)
-        }>
+        onClick={e => {
+          e.preventDefault();
+          this.props.onClick(e);
+        }}>
         <div className="node__name">
           {this.props.type}: {this.props.name}
         </div>
+        <NodeExportAsImageButton
+          onClick={e => this.props.onExportAsImage(e)} />
       </li>
     );
   }
@@ -22,6 +27,7 @@ export default class Node extends Component {
 
 Node.propTypes = {
   onClick: PropTypes.func.isRequired,
+  onExportAsImage: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   selected: PropTypes.bool.isRequired

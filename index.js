@@ -1,6 +1,8 @@
 'use strict';
 const app = require('app');
 const BrowserWindow = require('browser-window');
+const mkdirp = require('mkdirp');
+const rimraf = require('rimraf');
 
 // report crashes to the Electron project
 require('crash-reporter').start();
@@ -25,6 +27,9 @@ function onClosed() {
   // deref the window
   // for multiple windows store them in an array
   mainWindow = null;
+  rimraf('./.tmp', function(err) {
+    if (err) console.error(err);
+  });
 }
 
 // prevent window being GC'd
@@ -45,5 +50,9 @@ app.on('activate-with-no-open-windows', function () {
 });
 
 app.on('ready', function () {
+  mkdirp('./.tmp', '0777', function(err) {
+    if (err) console.error(err);
+  });
+
   mainWindow = createMainWindow();
 });

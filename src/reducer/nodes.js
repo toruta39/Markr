@@ -1,4 +1,4 @@
-import { ADD_NODE, SELECT_NODE, RESET_NODES, SET_FILE_HIERARCHY } from '../actions';
+import { SELECT_NODE, RESET_NODES, SET_FILE_HIERARCHY } from '../actions';
 
 export default function nodes(state=[], action) {
   switch (action.type) {
@@ -9,14 +9,6 @@ export default function nodes(state=[], action) {
         console.error('invalid tree');
         return [];
       }
-    case ADD_NODE:
-      return [
-        ...state,
-        {
-          name: action.name,
-          selected: false
-        }
-      ];
     case SELECT_NODE:
       return state.map((node, i) => {
         return {
@@ -31,22 +23,26 @@ export default function nodes(state=[], action) {
   }
 }
 
-function parsePSDTreeToNodes(tree, nodes=[]) {
+function parsePSDTreeToNodes(tree, nodes=[], path=[]) {
   let parentIndex = nodes.length - 1;
+  path = [...path, 0];
 
   tree.forEach(leaf => {
     let node = {
       ...leaf,
       parent: parentIndex,
-      selected: false
+      selected: false,
+      path: [...path]
     };
 
     delete node.children;
     nodes.push(node);
 
     if (leaf.children) {
-      parsePSDTreeToNodes(leaf.children, nodes);
+      parsePSDTreeToNodes(leaf.children, nodes, path);
     }
+
+    path[path.length - 1]++;
   });
 
   return nodes;

@@ -7,11 +7,12 @@ import uuid from 'uuid';
  */
 
 export const OPEN_FILE = 'OPEN_FILE';
+export const SET_FILE_PSD_INSTANCE = 'SET_FILE_PSD_INSTANCE';
 export const SET_FILE_HIERARCHY = 'SET_FILE_HIERARCHY';
 export const SET_FILE_PREVIEW = 'SET_FILE_PREVIEW';
-export const ADD_NODE = 'ADD_NODE';
 export const SELECT_NODE = 'SELECT_NODE';
-export const RESET_NODES = 'RESET_NODES';
+export const EXPORT_NODE_AS_IMAGE = 'EXPORT_NODE_AS_IMAGE';
+export const RESET_HIERARCHY = 'RESET_HIERARCHY';
 export const SET_VISIBILITY_FILTER = 'SET_VISIBILITY_FILTER';
 
 /*
@@ -33,6 +34,7 @@ export function openFile(file) {
     let imgPath = `./.tmp/${id}.png`;
 
     nRequire('psd').open(file.path).then(function(psd) {
+      dispatch(setFilePsdInstance(psd));
       dispatch(setFileHierarchy(psd.tree().export()));
       return psd.image.saveAsPng(imgPath);
     }).then(function() {
@@ -45,6 +47,10 @@ export function openFile(file) {
   }
 }
 
+export function setFilePsdInstance(psd) {
+  return { type: SET_FILE_PSD_INSTANCE, psd };
+}
+
 export function setFileHierarchy(tree) {
   return { type: SET_FILE_HIERARCHY, tree };
 }
@@ -53,16 +59,23 @@ export function setFilePreview(imgPath) {
   return { type: SET_FILE_PREVIEW, imgPath };
 }
 
-export function addNode(name) {
-  return { type: ADD_NODE, name };
-}
-
 export function selectNode(index) {
   return { type: SELECT_NODE, index };
 }
 
-export function resetNodes(nodes) {
-  return { type: RESET_NODES, nodes };
+export function exportNodeAsImage(index) {
+  return (dispatch, getState) => {
+    const state = getState();
+    const psd = state.file.psdInstance;
+
+    // TODO
+
+    dispatch({ type: EXPORT_NODE_AS_IMAGE, index });
+  }
+}
+
+export function resetHierarchy(hierarchy) {
+  return { type: RESET_HIERARCHY, hierarchy };
 }
 
 export function setVisibilityFilter(filter) {
