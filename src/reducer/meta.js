@@ -9,7 +9,7 @@ const initialState = {
   selectedNodeIndex: -1
 };
 
-export default function file(state=initialState, action) {
+export default function meta(state=initialState, action) {
   switch (action.type) {
     case OPEN_FILE:
       return {

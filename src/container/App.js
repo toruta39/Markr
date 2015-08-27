@@ -9,13 +9,13 @@ import Detail from '../component/Detail';
 
 class App extends Component {
   render() {
-    const { dispatch, file, selectedNode, visibleNodes, visibilityFilter } = this.props;
+    const { dispatch, meta, selectedNode, visibleNodes, visibilityFilter } = this.props;
 
     return (
       <div>
         <DragAndDrop
           onDrop={file => dispatch(openFile(file))} />
-        <PreviewImage src={file.previewImagePath} />
+        <PreviewImage src={meta.previewImagePath} />
         <Hierarchy>
           {visibleNodes.map((node, index) =>
             <Node
@@ -47,8 +47,8 @@ function filterVisibleNodes(nodes, filter) {
 
 function select(state) {
   return {
-    file: state.file,
-    selectedNode: filterSelectedNode(state.nodes, state.file.selectedNodeIndex),
+    meta: state.meta,
+    selectedNode: filterSelectedNode(state.nodes, state.meta.selectedNodeIndex),
     visibleNodes: filterVisibleNodes(state.nodes, state.visibilityFilter),
     visibilityFilter: state.visibilityFilter
   };

@@ -1,11 +1,13 @@
 import { combineReducers } from 'redux';
 
-import file from './file';
+import meta from './meta';
+import preview from './preview';
 import nodes from './nodes';
 import visibilityFilter from './visibilityFilter';
 
 const reducer = combineReducers({
-  file,
+  meta,
+  preview,
   nodes,
   visibilityFilter
 });

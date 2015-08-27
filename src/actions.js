@@ -13,11 +13,13 @@ export const OPEN_FILE = 'OPEN_FILE';
 export const SET_FILE_PSD_INSTANCE = 'SET_FILE_PSD_INSTANCE';
 export const SET_FILE_HIERARCHY = 'SET_FILE_HIERARCHY';
 export const SET_FILE_PREVIEW = 'SET_FILE_PREVIEW';
+
 export const SELECT_NODE = 'SELECT_NODE';
 export const EXPORT_NODE_AS_IMAGE = 'EXPORT_NODE_AS_IMAGE';
 export const EXPORT_NODE_AS_IMAGE_SUCCESS = 'EXPORT_NODE_AS_IMAGE_SUCCESS';
 export const EXPORT_NODE_AS_IMAGE_ERROR = 'EXPORT_NODE_AS_IMAGE_ERROR';
-export const RESET_HIERARCHY = 'RESET_HIERARCHY';
+export const RESET_NODES = 'RESET_NODES';
+
 export const SET_VISIBILITY_FILTER = 'SET_VISIBILITY_FILTER';
 
 /*
@@ -83,8 +85,8 @@ export function exportNodeAsImage(index) {
   }
 }
 
-export function resetHierarchy(hierarchy) {
-  return { type: RESET_HIERARCHY, hierarchy };
+export function resetNodes(hierarchy) {
+  return { type: RESET_NODES, hierarchy };
 }
 
 export function setVisibilityFilter(filter) {

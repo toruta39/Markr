@@ -1,6 +1,6 @@
 import { SELECT_NODE, RESET_NODES, SET_FILE_HIERARCHY } from '../actions';
 
-export default function nodes(state=[], action) {
+export default function sourceData(state=[], action) {
   switch (action.type) {
     case SET_FILE_HIERARCHY:
       if (action.tree.document && action.tree.children) {

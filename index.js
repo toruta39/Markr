@@ -57,7 +57,7 @@ app.on('ready', function () {
   });
 
   ipc.on('application:select-directory', function(event, arg) {
-    console.log(arg);
+    console.log(arg); // DEBUG
     event.returnValue = dialog.showOpenDialog({ properties: [ 'createDirectory', 'openDirectory' ]});
   });
 
