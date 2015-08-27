@@ -9,49 +9,41 @@ import Detail from '../component/Detail';
 
 class App extends Component {
   render() {
-    const { dispatch, meta, selectedNode, visibleNodes, visibilityFilter } = this.props;
+    const { dispatch, meta, preview, sourceData } = this.props;
 
     return (
       <div>
         <DragAndDrop
           onDrop={file => dispatch(openFile(file))} />
-        <PreviewImage src={meta.previewImagePath} />
-        <Hierarchy>
-          {visibleNodes.map((node, index) =>
-            <Node
-              {...node}
-              key = {index}
-              onClick={() => dispatch(selectNode(index))}
-              onExportAsImage={() => dispatch(exportNodeAsImage(index))} />
-          )}
-        </Hierarchy>
-        <Detail
-          node={selectedNode} />
+        {null && [ // comment out
+          (
+            <PreviewImage src={preview.imgPath} />
+          ),
+          (
+            <Hierarchy>
+              {visibleNodes.map((node, index) =>
+                <Node
+                  {...node}
+                  key = {index}
+                  onClick={() => dispatch(selectNode(index))}
+                  onExportAsImage={() => dispatch(exportNodeAsImage(index))} />
+              )}
+            </Hierarchy>
+          ),
+          (
+            <Detail
+              node={selectedNode} />
+          )
+        ]}
       </div>
     );
   }
 }
 
-function filterSelectedNode(nodes, index) {
-  return ~index ? nodes[index] : null;
-}
-
-function filterVisibleNodes(nodes, filter) {
-  switch (filter) {
-    case VisibilityFilters.SHOW_ALL:
-      return nodes;
-    case VisibilityFilters.SHOW_TEXT_NODE:
-      return nodes.filter(node => node.type === 'TEXT');
-  }
-}
-
-function select(state) {
+function inject(state) {
   return {
-    meta: state.meta,
-    selectedNode: filterSelectedNode(state.nodes, state.meta.selectedNodeIndex),
-    visibleNodes: filterVisibleNodes(state.nodes, state.visibilityFilter),
-    visibilityFilter: state.visibilityFilter
+    ...state
   };
 }
 
-export default connect(select)(App);
+export default connect(inject)(App);

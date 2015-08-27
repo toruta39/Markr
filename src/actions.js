@@ -2,6 +2,7 @@ const nRequire = require; // for requiring packages from node env
 const psd = nRequire('psd');
 const ipc = nRequire('ipc');
 const fs = nRequire('fs');
+const path = nRequire('path');
 
 import uuid from 'uuid';
 
@@ -20,14 +21,15 @@ export const EXPORT_NODE_AS_IMAGE_SUCCESS = 'EXPORT_NODE_AS_IMAGE_SUCCESS';
 export const EXPORT_NODE_AS_IMAGE_ERROR = 'EXPORT_NODE_AS_IMAGE_ERROR';
 export const RESET_NODES = 'RESET_NODES';
 
-export const SET_VISIBILITY_FILTER = 'SET_VISIBILITY_FILTER';
+export const SET_SOURCE_NODE_FILTER = 'SET_SOURCE_NODE_FILTER';
 
 /*
  * other constants
  */
 
-export const VisibilityFilters = {
+export const SourceNodeFilters = {
   SHOW_ALL: 'SHOW_ALL',
+  SHOW_LAYER_NODE: 'SHOW_LAYER_NODE',
   SHOW_TEXT_NODE: 'SHOW_TEXT_NODE'
 };
 
@@ -50,7 +52,11 @@ export function openFile(file) {
       console.error('psd error', err);
     });
 
-    dispatch({ type: OPEN_FILE, id });
+    dispatch({
+      type: OPEN_FILE,
+      id,
+      filename: path.basename(file.path, '.psd')
+    });
   }
 }
 
@@ -85,10 +91,10 @@ export function exportNodeAsImage(index) {
   }
 }
 
-export function resetNodes(hierarchy) {
-  return { type: RESET_NODES, hierarchy };
+export function resetNodes() {
+  return { type: RESET_NODES };
 }
 
-export function setVisibilityFilter(filter) {
-  return { type: SET_VISIBILITY_FILTER, filter };
+export function setSourceNodeFilter(filter) {
+  return { type: SET_SOURCE_NODE_FILTER, filter };
 }

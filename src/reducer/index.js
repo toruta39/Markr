@@ -2,14 +2,16 @@ import { combineReducers } from 'redux';
 
 import meta from './meta';
 import preview from './preview';
-import nodes from './nodes';
-import visibilityFilter from './visibilityFilter';
+import annotations from './annotations';
+import sourceData from './sourceData';
+import sourceNodeFilter from './sourceNodeFilter';
 
 const reducer = combineReducers({
   meta,
   preview,
-  nodes,
-  visibilityFilter
+  annotations,
+  sourceData,
+  sourceNodeFilter
 });
 
 export default reducer;
