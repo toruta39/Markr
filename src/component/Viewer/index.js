@@ -1,3 +1,4 @@
+import './index.styl';
 import React, { Component, PropTypes, findDOMNode } from 'react';
 import isChildDOMOf from '../../util/isChildDOMOf';
 import InfoLayer from './InfoLayer';
@@ -87,7 +88,7 @@ export default class Viewer extends Component {
       <div className="viewer">
         <div className="viewer__viewport">
           <div className="viewer__container" style={this.getContainerStyle()}>
-            {this.props.nodes && <Viewer.InfoLayer nodes={this.props.nodes} />}
+            {this.props.nodes && <InfoLayer nodes={this.props.nodes} />}
             {this.props.src && <img className="viewer__preview-layer" src={this.props.src} />}
           </div>
         </div>
@@ -105,5 +106,3 @@ Viewer.propTypes = {
   src: PropTypes.string,
   nodes: PropTypes.array
 };
-
-Viewer.InfoLayer = InfoLayer;

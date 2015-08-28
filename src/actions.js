@@ -1,4 +1,4 @@
-const nRequire = require; // for requiring packages from node env
+const nRequire = global['re' + 'quire']; // for requiring packages from node env
 const psd = nRequire('psd');
 const ipc = nRequire('ipc');
 const fs = nRequire('fs');

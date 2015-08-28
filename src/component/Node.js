@@ -1,3 +1,4 @@
+import './Node.styl';
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
