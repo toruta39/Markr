@@ -25,7 +25,7 @@ export default class Detail extends Component {
             <li><div>Size</div><div>w{this.props.node.width} h{this.props.node.height}</div></li>
             {this.getTextDetail()}
           </ul>
-        ) : <p>TODO: show document detail</p>}
+        ) : null}
       </div>
     );
   }

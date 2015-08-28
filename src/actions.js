@@ -2,6 +2,7 @@ const nRequire = require; // for requiring packages from node env
 const psd = nRequire('psd');
 const ipc = nRequire('ipc');
 const fs = nRequire('fs');
+const os = nRequire('os');
 const path = nRequire('path');
 
 import uuid from 'uuid';
@@ -39,8 +40,9 @@ export const SourceNodeFilters = {
 
 export function openFile(file) {
   return dispatch => {
+    const TMPDIR = os.tmpdir();
     const id = uuid.v1();
-    const imgPath = `./.tmp/${id}.png`;
+    const imgPath = `${TMPDIR}/${id}.png`;
 
     psd.open(file.path).then(function(psd) {
       dispatch(setFilePsdInstance(psd));

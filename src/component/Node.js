@@ -1,8 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
-import NodeExportAsImageButton from './NodeExportAsImageButton';
-
 export default class Node extends Component {
   render() {
     return (
@@ -18,7 +16,7 @@ export default class Node extends Component {
         <div className="node__name">
           {this.props.type}: {this.props.name}
         </div>
-        <NodeExportAsImageButton
+        <Node.ExportAsImage
           onClick={e => this.props.onExportAsImage(e)} />
       </li>
     );
@@ -32,3 +30,24 @@ Node.propTypes = {
   type: PropTypes.string.isRequired,
   selected: PropTypes.bool.isRequired
 };
+
+class ExportAsImage extends Component {
+  render() {
+    return (
+      <button
+        onClick={e => {
+          e.preventDefault();
+          e.stopPropagation();
+          this.props.onClick(e)
+        }}>
+        Export as image
+      </button>
+    );
+  }
+}
+
+ExportAsImage.propTypes = {
+  onClick: PropTypes.func.isRequired
+};
+
+Node.ExportAsImage = ExportAsImage;
