@@ -32,8 +32,14 @@ export default class Detail extends Component {
 }
 
 Detail.propTypes = {
-  node: React.PropTypes.shape({
-    name: React.PropTypes.string.isRequired,
-    type: React.PropTypes.string.isRequired
+  node: PropTypes.shape({
+    name: PropTypes.string,
+    type: PropTypes.string,
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
+    top: PropTypes.number,
+    right: PropTypes.number,
+    bottom: PropTypes.number,
+    left: PropTypes.number
   })
 };

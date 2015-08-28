@@ -1,5 +1,6 @@
 import React, { Component, PropTypes, findDOMNode } from 'react';
-import isChildDOMOf from '../util/isChildDOMOf';
+import isChildDOMOf from '../../util/isChildDOMOf';
+import InfoLayer from './InfoLayer';
 
 export default class Viewer extends Component {
   constructor(props) {
@@ -10,7 +11,8 @@ export default class Viewer extends Component {
       x: 0,
       y: 0,
       width: 0,
-      height: 0
+      height: 0,
+      scale: 1
     };
 
     this.onMouseDown = this.onMouseDown.bind(this);
@@ -65,15 +67,34 @@ export default class Viewer extends Component {
 
   getContainerStyle() {
     return {
-      transform: `translate(${this.state.x}px, ${this.state.y}px)`
+      transform: `translate(${this.state.x}px, ${this.state.y}px) ` +
+        `scale(${this.state.scale})`
     };
+  }
+
+  onZoomInClick(e) {
+    e.preventDefault();
+    this.setState({ scale: this.state.scale * 2 });
+  }
+
+  onZoomOutClick(e) {
+    e.preventDefault();
+    this.setState({ scale: this.state.scale / 2 });
   }
 
   render() {
     return (
-      <div className="viewport">
-        <div className="container" style={this.getContainerStyle()}>
-          {this.props.src ? <img src={this.props.src} /> : null}
+      <div className="viewer">
+        <div className="viewer__viewport">
+          <div className="viewer__container" style={this.getContainerStyle()}>
+            {this.props.nodes && <Viewer.InfoLayer nodes={this.props.nodes} />}
+            {this.props.src && <img className="viewer__preview-layer" src={this.props.src} />}
+          </div>
+        </div>
+        <div className="viewer__zoom">
+          <button onClick={e => this.onZoomOutClick(e)}>-</button>
+          {`${Math.round(this.state.scale * 100)}%`}
+          <button onClick={e => this.onZoomInClick(e)}>+</button>
         </div>
       </div>
     );
@@ -81,5 +102,8 @@ export default class Viewer extends Component {
 }
 
 Viewer.propTypes = {
-  src: PropTypes.string
+  src: PropTypes.string,
+  nodes: PropTypes.array
 };
+
+Viewer.InfoLayer = InfoLayer;

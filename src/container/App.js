@@ -14,8 +14,9 @@ class App extends Component {
     return (
       <div>
         <DragAndDrop
-          onDrop={file => dispatch(openFile(file))} />
-        <Viewer src={preview.imgPath} />
+          onDrop={file => dispatch(openFile(file))} >
+          <Viewer src={preview.imgPath} nodes={sourceData.nodes} />
+        </DragAndDrop>
         <Hierarchy>
           {sourceData.nodes.map((node, index) =>
             <Node

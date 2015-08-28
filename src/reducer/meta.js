@@ -3,7 +3,7 @@ import { OPEN_FILE, SET_FILE_PSD_INSTANCE } from '../actions';
 const initialState = {
   id: null,
   filename: null,
-  psdInstance: null
+  psd: null
 };
 
 export default function meta(state=initialState, action) {
@@ -17,7 +17,7 @@ export default function meta(state=initialState, action) {
     case SET_FILE_PSD_INSTANCE:
       return {
         ...state,
-        psdInstance: action.psd
+        psd: action.psd
       };
     default:
       return state;

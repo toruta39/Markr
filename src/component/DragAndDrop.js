@@ -12,7 +12,7 @@ export default class DragAndDrop extends Component {
           e.stopPropagation();
           this.props.onDrop(e.dataTransfer.files[0]);
         }}>
-        Drag and Drop
+        {this.props.children}
       </div>
     );
   }

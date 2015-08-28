@@ -81,7 +81,7 @@ export function selectNode(index) {
 export function exportNodeAsImage(index) {
   return (dispatch, getState) => {
     const state = getState();
-    let psdNode = state.file.psdInstance.tree().descendants()[index];
+    let psdNode = state.meta.psd.tree().descendants()[index];
 
     let path = ipc.sendSync('application:select-directory', 'ping');
 

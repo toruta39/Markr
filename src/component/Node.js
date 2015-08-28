@@ -16,8 +16,8 @@ export default class Node extends Component {
         <div className="node__name">
           {this.props.type}: {this.props.name}
         </div>
-        <Node.ExportAsImage
-          onClick={e => this.props.onExportAsImage(e)} />
+        {this.props.type === 'layer' &&
+          <Node.ExportAsImage onClick={e => this.props.onExportAsImage(e)} />}
       </li>
     );
   }
