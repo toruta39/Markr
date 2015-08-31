@@ -1,4 +1,4 @@
-import './index.styl';
+import './index.scss';
 import React, { Component, PropTypes, findDOMNode } from 'react';
 import isChildDOMOf from '../../util/isChildDOMOf';
 import InfoLayer from './InfoLayer';

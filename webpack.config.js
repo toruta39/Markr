@@ -10,7 +10,12 @@ module.exports = {
   module: {
     loaders: [
       { test: /\.js$/, exclude: /node_modules/, loader: 'babel' },
-      { test: /\.styl$/, loader: 'style!css!stylus?paths=node_modules/' }
+      {
+        test: /\.scss$/,
+        loader: 'style!css!sass?' +
+          ['', require('bourbon').includePaths, 'node_modules/normalize.css/']
+          .map(encodeURIComponent).join('&includePaths[]=').slice(1)
+      }
     ]
   }
 };

@@ -1,0 +1,15 @@
+.viewer__viewport {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+}
+
+.viewer__container {
+  position: absolute;
+
+  img {
+    display: block;
+  }
+}
+

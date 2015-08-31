@@ -1,4 +1,4 @@
-import './Node.styl';
+import './Node.scss';
 import React, { Component, PropTypes } from 'react';
 
 export default class Node extends Component {

@@ -1,4 +1,4 @@
-import './InfoLayer.styl';
+import './InfoLayer.scss';
 import React, { Component, PropTypes } from 'react';
 import Node from './Node';
 

@@ -1,3 +1,4 @@
+import './App.scss';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { openFile, selectNode, exportNodeAsImage, setVisibilityFilter, VisibilityFilters } from '../actions';
@@ -12,7 +13,7 @@ class App extends Component {
     const { dispatch, meta, preview, sourceData } = this.props;
 
     return (
-      <div>
+      <div className="app">
         <DragAndDrop
           onDrop={file => dispatch(openFile(file))} >
           <Viewer src={preview.imgPath} nodes={sourceData.nodes} />

@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react';
 export default class DragAndDrop extends Component {
   render() {
     return (
-      <div
+      <div className="drag-and-drop"
         onDragOver={e => e.preventDefault()}
         onDragEnd={e => e.preventDefault()}
         onDragLeave={e => e.preventDefault()}
