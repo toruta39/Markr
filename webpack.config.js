@@ -13,7 +13,7 @@ module.exports = {
       {
         test: /\.scss$/,
         loader: 'style!css!sass?' +
-          ['', require('bourbon').includePaths, 'node_modules/normalize.css/']
+          ['', require('bourbon').includePaths, 'node_modules/normalize.css', 'src/style']
           .map(encodeURIComponent).join('&includePaths[]=').slice(1)
       }
     ]

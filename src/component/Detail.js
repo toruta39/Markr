@@ -15,7 +15,8 @@ export default class Detail extends Component {
 
   render() {
     return (
-      <div>
+      <section className="panel">
+        <h2 className="panel__title">Detail</h2>
         {this.props.node ? (
           <ul>
             <li><div>Visibility</div><div>{this.props.node.visible}</div></li>
@@ -26,7 +27,7 @@ export default class Detail extends Component {
             {this.getTextDetail()}
           </ul>
         ) : null}
-      </div>
+      </section>
     );
   }
 }

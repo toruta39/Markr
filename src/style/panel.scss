@@ -1,0 +1,18 @@
+@import 'bourbon';
+@import 'color';
+
+.panel {
+  position: relative;
+  min-width: rem(160);
+  width: rem(160);
+  flex-grow: 0;
+  overflow: hidden;
+  background-color: transparentize($cinder, .2);
+
+  &__title {
+    margin: 0;
+    padding: rem(8) rem(12);
+    color: $fiord;
+    font-size: rem(12);
+  }
+}

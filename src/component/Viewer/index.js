@@ -1,6 +1,7 @@
 import './index.scss';
 import React, { Component, PropTypes, findDOMNode } from 'react';
 import isChildDOMOf from '../../util/isChildDOMOf';
+import DragAndDrop from './DragAndDrop';
 import InfoLayer from './InfoLayer';
 
 export default class Viewer extends Component {
@@ -86,12 +87,15 @@ export default class Viewer extends Component {
   render() {
     return (
       <div className="viewer">
-        <div className="viewer__viewport">
-          <div className="viewer__container" style={this.getContainerStyle()}>
-            {this.props.nodes && <InfoLayer nodes={this.props.nodes} />}
-            {this.props.src && <img className="viewer__preview-layer" src={this.props.src} />}
+        <DragAndDrop
+          onDrop={file => this.props.onDrop(file)} >
+          <div className="viewer__viewport">
+            <div className="viewer__container" style={this.getContainerStyle()}>
+              {this.props.nodes && <InfoLayer nodes={this.props.nodes} />}
+              {this.props.src && <img className="viewer__preview-layer" src={this.props.src} />}
+            </div>
           </div>
-        </div>
+        </DragAndDrop>
         <div className="viewer__zoom">
           <button onClick={e => this.onZoomOutClick(e)}>-</button>
           {`${Math.round(this.state.scale * 100)}%`}
@@ -104,5 +108,6 @@ export default class Viewer extends Component {
 
 Viewer.propTypes = {
   src: PropTypes.string,
-  nodes: PropTypes.array
+  nodes: PropTypes.array,
+  onDrop: PropTypes.func.isRequired
 };
