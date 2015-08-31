@@ -7,9 +7,6 @@ const dialog = require('dialog');
 // report crashes to the Electron project
 require('crash-reporter').start();
 
-// adds debug features like hotkeys for triggering dev tools and reload
-require('electron-debug')();
-
 function createMainWindow () {
   const win = new BrowserWindow({
     width: 1024,
