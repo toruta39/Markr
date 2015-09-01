@@ -1,7 +1,7 @@
 import React, { Component, PropTypes, findDOMNode } from 'react';
 import isChildDOMOf from '../../../util/isChildDOMOf';
 
-export default class Mover extends Component {
+export default class Selector extends Component {
   constructor(props) {
     super(props);
 
@@ -55,6 +55,16 @@ export default class Mover extends Component {
         lastY: e.pageY
       });
     }
+
+    if (!isChildDOMOf(e.target, this.domNode)) return;
+
+    // map to psd coord
+    let coord = {
+      x: (e.pageX - this.props.x) / this.props.scale + (this.props.docWidth >> 1),
+      y: (e.pageY - this.props.y) / this.props.scale + (this.props.docHeight >> 1)
+    };
+
+    console.log('psd coord: %s %s', coord.x >> 0, coord.y >> 0);
   }
 
   onMouseUp(e) {
@@ -65,17 +75,19 @@ export default class Mover extends Component {
 
   render() {
     return (
-      <div className="viewer__viewport viewer__viewport--mover">
+      <div className="viewer__viewport viewer__viewport--selector">
         {this.props.children}
       </div>
     );
   }
 }
 
-Mover.propTypes = {
+Selector.propTypes = {
   src: PropTypes.string,
   x: PropTypes.number.isRequired,
   y: PropTypes.number.isRequired,
+  docWidth: PropTypes.number.isRequired,
+  docHeight: PropTypes.number.isRequired,
   scale: PropTypes.number.isRequired,
   onUpdateXY: PropTypes.func.isRequired,
   children: PropTypes.element.isRequired

@@ -3,7 +3,10 @@ import { SET_FILE_HIERARCHY, SELECT_NODE, RESET_NODES } from '../actions';
 const initialData = {
   selection: [],
   loading: false,
-  document: null,
+  document: {
+    width: 0,
+    height: 0
+  },
   nodes: []
 }
 

@@ -17,5 +17,6 @@ module.exports = {
           .map(encodeURIComponent).join('&includePaths[]=').slice(1)
       }
     ]
-  }
+  },
+  devtool: 'source-map'
 };
