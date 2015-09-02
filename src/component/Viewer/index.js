@@ -1,8 +1,7 @@
 import './index.scss';
 import React, { Component, PropTypes, findDOMNode } from 'react';
 import DragAndDrop from './DragAndDrop';
-// import Mover from './Viewport/Mover';
-import Selector from './Viewport/Selector';
+import Selector from './Plugin/Selector';
 
 export default class Viewer extends Component {
   constructor(props) {
@@ -56,14 +55,18 @@ export default class Viewer extends Component {
     return (
       <div className="viewer">
         <DragAndDrop
-          onDrop={file => this.props.onDrop(file)} >
-          <Selector
-            {...this.state}
-            onUpdateXY={(pos) => this.updateXY(pos)}>
-            <div className="viewer__container" style={this.getContainerStyle()}>
-              {this.props.src && <img className="viewer__preview-layer" src={this.props.src} />}
-            </div>
-          </Selector>
+          onDrop={this.props.onDrop} >
+          {this.props.src && (
+            <Selector
+              {...this.state}
+              nodes={this.props.nodes}
+              onUpdateXY={(pos) => this.updateXY(pos)}
+              onSelect={this.props.onSelect}>
+              <div className="viewer__container" style={this.getContainerStyle()}>
+                {this.props.src && <img className="viewer__preview-layer" src={this.props.src} />}
+              </div>
+            </Selector>
+          )}
         </DragAndDrop>
         <div className="viewer__zoom">
           <input type="range" min="0" max="2" step="0.01"
@@ -81,5 +84,6 @@ Viewer.propTypes = {
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired
   }).isRequired,
-  onDrop: PropTypes.func.isRequired
+  onDrop: PropTypes.func.isRequired,
+  onSelect: PropTypes.func.isRequired
 };

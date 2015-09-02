@@ -22,7 +22,7 @@ export default function sourceData(state=initialData, action) {
     case SELECT_NODE:
       return {
         ...state,
-        selection: [action.index]
+        selection: ~action.index ? [action.index] : []
       };
     case RESET_NODES:
       return {

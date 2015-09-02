@@ -13,7 +13,12 @@ class App extends Component {
 
     return (
       <div className="app">
-        <Viewer src={preview.imgPath} document={sourceData.document} nodes={sourceData.nodes} onDrop={file => dispatch(openFile(file))} />
+        <Viewer
+          src={preview.imgPath}
+          document={sourceData.document}
+          nodes={sourceData.nodes}
+          onDrop={file => dispatch(openFile(file))}
+          onSelect={index => dispatch(selectNode(index))} />
         <Hierarchy>
           {sourceData.nodes.map((node, index) =>
             <Node
