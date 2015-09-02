@@ -15,6 +15,7 @@ export default function sourceData(state=initialData, action) {
     case SET_FILE_HIERARCHY:
       return {
         ...state,
+        selection: [],
         loading: false,
         document: action.tree.document,
         nodes: normalize(action.tree.children)
@@ -27,6 +28,7 @@ export default function sourceData(state=initialData, action) {
     case RESET_NODES:
       return {
         ...state,
+        selection: [],
         nodes: []
       };
     default:

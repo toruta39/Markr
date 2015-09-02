@@ -82,15 +82,22 @@ export default class Selector extends Component {
     }, []);
   }
 
+  getVisibleHoveredNodesIndices() {
+    let nodes = this.props.nodes;
+
+    return this.getAllHoverdNodesIndices().filter((index) => {
+      return nodes[index].visible;
+    });
+  }
+
   // return the top hit only
+  // TODO this is a little slow for realtime use, needs optimization
   getHoveredNodeIndex() {
     let nodes = this.props.nodes;
 
-    return this.getAllHoverdNodesIndices().reduce((acc, index, i) => {
-      if (~nodes[index].parents.indexOf(acc)) {
-        return index;
-      }
-
+    return this.getVisibleHoveredNodesIndices().reduce((acc, index, i, indices) => {
+      let node = nodes[index];
+      if (node.parents.indexOf(acc) === node.parents.length - 1) return index;
       return acc;
     }, -1);
   }
@@ -115,7 +122,13 @@ export default class Selector extends Component {
 }
 
 Selector.propTypes = {
-  nodes: PropTypes.array.isRequired,
+  nodes: PropTypes.arrayOf(PropTypes.shape({
+    left: PropTypes.number.isRequired,
+    top: PropTypes.number.isRequired,
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
+    visible: PropTypes.bool.isRequired
+  })).isRequired,
   src: PropTypes.string,
   x: PropTypes.number.isRequired,
   y: PropTypes.number.isRequired,
