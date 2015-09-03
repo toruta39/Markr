@@ -22,8 +22,24 @@ export default class Detail extends Component {
             <li><div>Visibility</div><div>{this.props.node.visible}</div></li>
             <li><div>Name</div><div>{this.props.node.name}</div></li>
             <li><div>Type</div><div>{this.props.node.type}</div></li>
-            <li><div>Offset</div><div>t{this.props.node.top} r{this.props.node.right} b{this.props.node.bottom} l{this.props.node.left}</div></li>
-            <li><div>Size</div><div>w{this.props.node.width} h{this.props.node.height}</div></li>
+            <li>
+              <div>Offset</div>
+              <div>
+                t<input readOnly value={this.props.node.top} />
+                r<input readOnly value={this.props.node.right} />
+                b<input readOnly value={this.props.node.bottom} />
+                l<input readOnly value={this.props.node.left} />
+              </div>
+            </li>
+            <li>
+              <div>Size</div>
+              <div>
+                w<input readOnly value={this.props.node.width} />
+                <button data-clipboard-text={this.props.node.width}>Copy</button>
+                h<input readOnly value={this.props.node.height} />
+                <button data-clipboard-text={this.props.node.height}>Copy</button>
+              </div>
+            </li>
             {this.getTextDetail()}
           </ul>
         ) : null}
