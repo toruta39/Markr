@@ -1,4 +1,6 @@
 import React, { Component, PropTypes } from 'react';
+import CopyableText from './CopyableText';
+import CopyableTextarea from './CopyableTextarea';
 
 export default class Detail extends Component {
   getTextDetail() {
@@ -9,7 +11,10 @@ export default class Detail extends Component {
       <li><div>Sizes</div><div>{text.font.sizes.join()}</div></li>,
       <li><div>Colors</div><div>{text.font.colors.join()}</div></li>,
       <li><div>Alignments</div><div>{text.font.alignment.join()}</div></li>,
-      <li><div>Text</div><div>{text.value}</div></li>
+      <li>
+        <div>Text</div>
+        <CopyableTextarea value={text.value} onCopy={this.props.onCopy} />
+      </li>
     ] : null;
   }
 
@@ -25,19 +30,17 @@ export default class Detail extends Component {
             <li>
               <div>Offset</div>
               <div>
-                t<input readOnly value={this.props.node.top} />
-                r<input readOnly value={this.props.node.right} />
-                b<input readOnly value={this.props.node.bottom} />
-                l<input readOnly value={this.props.node.left} />
+                <CopyableText value={this.props.node.top + 'px'} onCopy={this.props.onCopy} />
+                <CopyableText value={this.props.node.right + 'px'} onCopy={this.props.onCopy} />
+                <CopyableText value={this.props.node.bottom + 'px'} onCopy={this.props.onCopy} />
+                <CopyableText value={this.props.node.left + 'px'} onCopy={this.props.onCopy} />
               </div>
             </li>
             <li>
               <div>Size</div>
               <div>
-                w<input readOnly value={this.props.node.width} />
-                <button data-clipboard-text={this.props.node.width}>Copy</button>
-                h<input readOnly value={this.props.node.height} />
-                <button data-clipboard-text={this.props.node.height}>Copy</button>
+                <CopyableText value={this.props.node.width + 'px'} onCopy={this.props.onCopy} />
+                <CopyableText value={this.props.node.height + 'px'} onCopy={this.props.onCopy} />
               </div>
             </li>
             {this.getTextDetail()}
@@ -49,6 +52,7 @@ export default class Detail extends Component {
 }
 
 Detail.propTypes = {
+  onCopy: PropTypes.func.isRequired,
   node: PropTypes.shape({
     name: PropTypes.string,
     type: PropTypes.string,

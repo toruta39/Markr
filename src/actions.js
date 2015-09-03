@@ -4,12 +4,15 @@ const ipc = nRequire('ipc');
 const fs = nRequire('fs');
 const os = nRequire('os');
 const path = nRequire('path');
+const clipboard = nRequire('clipboard');
 
 import uuid from 'uuid';
 
 /*
  * action types
  */
+
+export const COPY_CONTENT = 'COPY_CONTENT';
 
 export const OPEN_FILE = 'OPEN_FILE';
 export const SET_FILE_PSD_INSTANCE = 'SET_FILE_PSD_INSTANCE';
@@ -23,6 +26,7 @@ export const EXPORT_NODE_AS_IMAGE_ERROR = 'EXPORT_NODE_AS_IMAGE_ERROR';
 export const RESET_NODES = 'RESET_NODES';
 
 export const SET_SOURCE_NODE_FILTER = 'SET_SOURCE_NODE_FILTER';
+
 
 /*
  * other constants
@@ -60,6 +64,13 @@ export function openFile(file) {
       filename: path.basename(file.path, '.psd')
     });
   }
+}
+
+export function copyContent(content) {
+  if (content.text) {
+    clipboard.writeText(content.text);
+  }
+  return { type: COPY_CONTENT, content };
 }
 
 export function setFilePsdInstance(psd) {

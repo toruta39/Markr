@@ -1,7 +1,7 @@
 import './App.scss';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { openFile, selectNode, exportNodeAsImage, setVisibilityFilter, VisibilityFilters } from '../actions';
+import { openFile, selectNode, exportNodeAsImage, setVisibilityFilter, copyContent } from '../actions';
 import Viewer from '../component/Viewer';
 import Hierarchy from '../component/Hierarchy';
 import Node from '../component/Node';
@@ -29,7 +29,8 @@ class App extends Component {
               onExportAsImage={() => dispatch(exportNodeAsImage(index))} />
           )}
         </Hierarchy>
-        <Detail node={sourceData.nodes[sourceData.selection[sourceData.selection.length - 1]] || sourceData.document || null} />
+        <Detail node={sourceData.nodes[sourceData.selection[sourceData.selection.length - 1]] || sourceData.document || null}
+          onCopy={content => dispatch(copyContent(content))} />
       </div>
     );
   }
