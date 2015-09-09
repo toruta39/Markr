@@ -1,6 +1,7 @@
 import './index.scss';
 import React, { Component, PropTypes, findDOMNode } from 'react';
 import DragAndDrop from './DragAndDrop';
+import InfoLayer from './InfoLayer';
 import Selector from './Plugin/Selector';
 
 export default class Viewer extends Component {
@@ -64,6 +65,14 @@ export default class Viewer extends Component {
               <div className="viewer__container" style={this.getContainerStyle()}>
                 {this.props.src && <img className="viewer__preview-layer" src={this.props.src} />}
               </div>
+              <InfoLayer
+                nodes={this.props.nodes}
+                selectedNode={this.props.selectedNode}
+                x={this.state.x}
+                y={this.state.y}
+                docWidth={this.state.docWidth}
+                docHeight={this.state.docHeight}
+                scale={this.state.scale}/>
             </Selector>
           )}
         </DragAndDrop>

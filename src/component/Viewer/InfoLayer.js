@@ -1,19 +1,19 @@
 import './InfoLayer.scss';
 import React, { Component, PropTypes } from 'react';
-import Node from './Node';
+import NodeInfo from './NodeInfo';
 
 export default class InfoLayer extends Component {
   getContainerStyle() {
     return {
-      transform: `translate(${this.props.x}px, ${this.props.y}px) ` +
-        `scale(${this.props.scale})`
+      left: this.props.x,
+      top: this.props.y
     };
   }
 
   render() {
     return (
       <div className="viewer__info-layer" style={this.getContainerStyle()}>
-        { this.props.selectedNode ? <Node {...this.props.selectedNode} /> : null }
+        { this.props.selectedNode ? <NodeInfo {...this.props.selectedNode} scale={this.props.scale} /> : null }
       </div>
     );
   }

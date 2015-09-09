@@ -1,0 +1,68 @@
+.node-info {
+  position: absolute;
+  border: 1px solid hsl(0, 100%, 75%);
+  background: hsla(0, 100%, 75%, 0.2);
+
+  &__top-border,
+  &__bottom-border {
+    position: absolute;
+    left: -4999px;
+    width: 9999px;
+    height: 0;
+    border-top: 1px dotted hsl(0, 100%, 75%);
+  }
+
+  &__top-border { top: -1px; }
+  &__bottom-border { bottom: -1px; }
+
+  &__left-border,
+  &__right-border {
+    position: absolute;
+    top: -4999px;
+    width: 0;
+    height: 9999px;
+    border-left: 1px dotted hsl(0, 100%, 75%);
+  }
+
+  &__left-border { left: -1px; }
+  &__right-border { right: -1px; }
+
+  &__width,
+  &__height {
+    display: flex;
+    position: absolute;
+    justify-content: center;
+  }
+
+  &__width {
+    left: 0;
+    right: 0;
+    bottom: 100%;
+  }
+
+  &__height {
+    top: 0;
+    bottom: 0;
+    left: 100%;
+  }
+
+  &__width-label,
+  &__height-label {
+    display: block;
+    padding: 6px;
+    margin: -16px;
+    align-self: center;
+    background: hsla(0, 100%, 75%, 1);
+    border-radius: 4px;
+    color: #fff;
+    text-align: center;
+  }
+
+  &__width-label {
+    margin-bottom: 8px;
+  }
+
+  &__height-label {
+    margin-left: 8px;
+  }
+}

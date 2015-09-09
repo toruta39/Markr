@@ -1,6 +1,5 @@
 import React, { Component, PropTypes, findDOMNode } from 'react';
 import isChildDOMOf from '../../../../util/isChildDOMOf';
-import InfoLayer from './InfoLayer';
 
 export default class Selector extends Component {
   constructor(props) {
@@ -106,12 +105,10 @@ export default class Selector extends Component {
   }
 
   isClick(e) {
-    const CLICK_DURATION = 300;
     const CLICK_MOVEMENT = 5;
 
     return e.pageX - this.state.startX < CLICK_MOVEMENT &&
-      e.pageY - this.state.startY < CLICK_MOVEMENT ||
-      Date.now() - this.state.mouseDownTime < CLICK_DURATION;
+      e.pageY - this.state.startY < CLICK_MOVEMENT;
   }
 
   onMouseUp(e) {
@@ -128,7 +125,6 @@ export default class Selector extends Component {
     return (
       <div className="viewer__viewport viewer__viewport--selector">
         {this.props.children}
-        <InfoLayer {...this.props} />
       </div>
     );
   }
