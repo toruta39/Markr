@@ -9,7 +9,7 @@ import Detail from '../component/Detail';
 
 class App extends Component {
   render() {
-    const { dispatch, meta, preview, sourceData } = this.props;
+    const { dispatch, meta, preview, sourceData, selectedNode } = this.props;
 
     return (
       <div className="app">
@@ -17,6 +17,7 @@ class App extends Component {
           src={preview.imgPath}
           document={sourceData.document}
           nodes={sourceData.nodes}
+          selectedNode={selectedNode}
           onDrop={file => dispatch(openFile(file))}
           onSelect={index => dispatch(selectNode(index))} />
         <Hierarchy>
@@ -29,7 +30,7 @@ class App extends Component {
               onExportAsImage={() => dispatch(exportNodeAsImage(index))} />
           )}
         </Hierarchy>
-        <Detail node={sourceData.nodes[sourceData.selection[sourceData.selection.length - 1]] || sourceData.document || null}
+        <Detail node={selectedNode || sourceData.document || null}
           onCopy={content => dispatch(copyContent(content))} />
       </div>
     );
@@ -37,8 +38,11 @@ class App extends Component {
 }
 
 function inject(state) {
+  const sourceData = state.sourceData;
+
   return {
-    ...state
+    ...state,
+    selectedNode: sourceData.nodes[sourceData.selection[sourceData.selection.length - 1]]
   };
 }
 

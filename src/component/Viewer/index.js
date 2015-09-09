@@ -30,8 +30,8 @@ export default class Viewer extends Component {
     this.setState({
       width: rect.width,
       height: rect.height,
-      x: rect.width >> 1,
-      y: rect.height >> 1
+      x: 0,
+      y: 0
     });
   }
 
@@ -44,8 +44,6 @@ export default class Viewer extends Component {
 
   getContainerStyle() {
     return {
-      left: -(this.state.docWidth >> 1) + 'px',
-      top: -(this.state.docHeight >> 1) + 'px',
       transform: `translate(${this.state.x}px, ${this.state.y}px) ` +
         `scale(${this.state.scale})`
     };
@@ -60,6 +58,7 @@ export default class Viewer extends Component {
             <Selector
               {...this.state}
               nodes={this.props.nodes}
+              selectedNode={this.props.selectedNode}
               onUpdateXY={(pos) => this.updateXY(pos)}
               onSelect={this.props.onSelect}>
               <div className="viewer__container" style={this.getContainerStyle()}>
@@ -80,6 +79,7 @@ export default class Viewer extends Component {
 Viewer.propTypes = {
   src: PropTypes.string,
   nodes: PropTypes.array,
+  selectedNode: PropTypes.object,
   document: PropTypes.shape({
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired

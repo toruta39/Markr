@@ -1,5 +1,6 @@
 import React, { Component, PropTypes, findDOMNode } from 'react';
-import isChildDOMOf from '../../../util/isChildDOMOf';
+import isChildDOMOf from '../../../../util/isChildDOMOf';
+import InfoLayer from './InfoLayer';
 
 export default class Selector extends Component {
   constructor(props) {
@@ -39,6 +40,9 @@ export default class Selector extends Component {
     e.preventDefault();
     this.setState({
       isMouseDown: true,
+      mouseDownTime: Date.now(),
+      startX: e.pageX,
+      startY: e.pageY,
       lastX: e.pageX,
       lastY: e.pageY
     });
@@ -54,7 +58,6 @@ export default class Selector extends Component {
       });
 
       this.setState({
-        isDragging: true,
         lastX: e.pageX,
         lastY: e.pageY
       });
@@ -64,8 +67,8 @@ export default class Selector extends Component {
 
     // map mouse position to psd coord
     this.setState({
-      psdX: (e.pageX - this.props.x) / this.props.scale + (this.props.docWidth >> 1),
-      psdY: (e.pageY - this.props.y) / this.props.scale + (this.props.docHeight >> 1)
+      psdX: (e.pageX - this.props.x) / this.props.scale,
+      psdY: (e.pageY - this.props.y) / this.props.scale
     });
   }
 
@@ -102,9 +105,18 @@ export default class Selector extends Component {
     }, -1);
   }
 
+  isClick(e) {
+    const CLICK_DURATION = 300;
+    const CLICK_MOVEMENT = 5;
+
+    return e.pageX - this.state.startX < CLICK_MOVEMENT &&
+      e.pageY - this.state.startY < CLICK_MOVEMENT ||
+      Date.now() - this.state.mouseDownTime < CLICK_DURATION;
+  }
+
   onMouseUp(e) {
     if (this.state.isMouseDown) {
-      if (!this.state.isDragging) {
+      if (this.isClick(e)) {
         this.props.onSelect(this.getHoveredNodeIndex());
       }
 
@@ -116,6 +128,7 @@ export default class Selector extends Component {
     return (
       <div className="viewer__viewport viewer__viewport--selector">
         {this.props.children}
+        <InfoLayer {...this.props} />
       </div>
     );
   }
@@ -129,6 +142,13 @@ Selector.propTypes = {
     height: PropTypes.number.isRequired,
     visible: PropTypes.bool.isRequired
   })).isRequired,
+  selectedNode: PropTypes.shape({
+    left: PropTypes.number.isRequired,
+    top: PropTypes.number.isRequired,
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
+    visible: PropTypes.bool.isRequired
+  }).isRequired,
   src: PropTypes.string,
   x: PropTypes.number.isRequired,
   y: PropTypes.number.isRequired,
