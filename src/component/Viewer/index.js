@@ -1,5 +1,5 @@
 import './index.scss';
-import React, { Component, PropTypes, findDOMNode } from 'react';
+import React, { Component, PropTypes } from 'react';
 import DragAndDrop from './DragAndDrop';
 import InfoLayer from './InfoLayer';
 import Selector from './Plugin/Selector';
@@ -13,8 +13,12 @@ export default class Viewer extends Component {
       docHeight: 0,
       x: 0,
       y: 0,
+      width: 0,
+      height: 0,
       scale: 1
     };
+
+    this.onResize = this.onResize.bind(this);
   }
 
   onZoomChange(e) {
@@ -26,13 +30,24 @@ export default class Viewer extends Component {
   }
 
   componentDidMount() {
-    let rect = findDOMNode(this).getBoundingClientRect();
-
     this.setState({
-      width: rect.width,
-      height: rect.height,
+      width: window.innerWidth,
+      height: window.innerHeight,
       x: 0,
       y: 0
+    });
+
+    window.addEventListener('resize', this.onResize);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize);
+  }
+
+  onResize() {
+    this.setState({
+      width: window.innerWidth,
+      height: window.innerHeight,
     });
   }
 
@@ -72,6 +87,8 @@ export default class Viewer extends Component {
                 y={this.state.y}
                 docWidth={this.state.docWidth}
                 docHeight={this.state.docHeight}
+                width={this.state.width}
+                height={this.state.height}
                 scale={this.state.scale}/>
             </Selector>
           )}

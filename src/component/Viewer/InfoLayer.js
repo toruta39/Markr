@@ -13,7 +13,8 @@ export default class InfoLayer extends Component {
   render() {
     return (
       <div className="viewer__info-layer" style={this.getContainerStyle()}>
-        { this.props.selectedNode ? <NodeInfo {...this.props.selectedNode} scale={this.props.scale} /> : null }
+        { this.props.selectedNode ?
+          <NodeInfo {...this.props} /> : null }
       </div>
     );
   }
@@ -26,5 +27,7 @@ InfoLayer.propTypes = {
   y: PropTypes.number.isRequired,
   docWidth: PropTypes.number.isRequired,
   docHeight: PropTypes.number.isRequired,
+  width: PropTypes.number.isRequired,
+  height: PropTypes.number.isRequired,
   scale: PropTypes.number.isRequired
 };
