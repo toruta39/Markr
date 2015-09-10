@@ -37,7 +37,9 @@ export default function sourceData(state=initialData, action) {
 }
 
 function normalize(tree, nodes=[], parents=[]) {
-  parents = [...parents, nodes.length - 1];
+  if (nodes.length) {
+    parents = [...parents, nodes.length - 1];
+  }
   const parent = nodes[parents[parents.length - 1]];
 
   tree.forEach(leaf => {
