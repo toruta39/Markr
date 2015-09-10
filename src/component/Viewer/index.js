@@ -46,7 +46,7 @@ export default class Viewer extends Component {
   }
 
   onHover(index) {
-    ~index && this.setState({ hoveredNode: this.props.nodes[index] });
+    this.setState({ hoveredNode: ~index ? this.props.nodes[index] : null });
   }
 
   onResize() {
