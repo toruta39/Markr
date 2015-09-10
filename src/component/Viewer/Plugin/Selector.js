@@ -1,5 +1,6 @@
 import React, { Component, PropTypes, findDOMNode } from 'react';
-import isChildDOMOf from '../../../../util/isChildDOMOf';
+import isChildDOMOf from '../../../util/isChildDOMOf';
+import Node from '../../Node';
 
 export default class Selector extends Component {
   constructor(props) {
@@ -10,8 +11,12 @@ export default class Selector extends Component {
       isMouseDown: false,
       lastX: 0,
       lastY: 0,
+      menuX: 0,
+      menuY: 0,
       psdX: null,
-      psdY: null
+      psdY: null,
+      showCandidateNodes: false,
+      candidateNodeIndices: []
     };
 
     this.onMouseDown = this.onMouseDown.bind(this);
@@ -43,7 +48,8 @@ export default class Selector extends Component {
       startX: e.pageX,
       startY: e.pageY,
       lastX: e.pageX,
-      lastY: e.pageY
+      lastY: e.pageY,
+      showCandidateNodes: false
     });
   }
 
@@ -57,6 +63,11 @@ export default class Selector extends Component {
       });
 
       this.setState({
+        isDragging: (() => {
+          let dx = e.pageX - this.state.startX,
+            dy = e.pageY - this.state.startY;
+          return dx * dx + dy * dy > 25;
+        })(),
         lastX: e.pageX,
         lastY: e.pageY
       });
@@ -104,17 +115,21 @@ export default class Selector extends Component {
     }, -1);
   }
 
-  isClick(e) {
-    const CLICK_MOVEMENT = 5;
-
-    return e.pageX - this.state.startX < CLICK_MOVEMENT &&
-      e.pageY - this.state.startY < CLICK_MOVEMENT;
-  }
-
   onMouseUp(e) {
     if (this.state.isMouseDown) {
-      if (this.isClick(e)) {
-        this.props.onSelect(this.getHoveredNodeIndex());
+      if (!this.state.isDragging) {
+        if (e.button === 0) {
+          this.props.onSelect(this.getHoveredNodeIndex());
+        }
+
+        if (e.button === 2) {
+          this.setState({
+            menuX: e.pageX,
+            menuY: e.pageY,
+            showCandidateNodes: true,
+            candidateNodeIndices: this.getVisibleHoveredNodesIndices()
+          });
+        }
       }
 
       this.setState({ isMouseDown: false, isDragging: false });
@@ -125,6 +140,35 @@ export default class Selector extends Component {
     return (
       <div className="viewer__viewport viewer__viewport--selector">
         {this.props.children}
+        {
+          this.state.showCandidateNodes && (
+            <ul
+              onMouseDown={e => e.stopPropagation()}
+              onMouseMove={e => e.stopPropagation()}
+              onMouseUp={e => e.stopPropagation()}
+              style={{
+                position: 'absolute',
+                left: this.state.menuX,
+                top: this.state.menuY
+              }}>
+              {
+                this.state.candidateNodeIndices
+                .map(index => {
+                  const node = this.props.nodes[index];
+                  return (
+                    <Node
+                      {...node}
+                      key={index}
+                      onClick={e => {
+                        this.setState({ showCandidateNodes: false });
+                        this.props.onSelect(index)
+                      }} />
+                  );
+                })
+              }
+            </ul>
+          )
+        }
       </div>
     );
   }

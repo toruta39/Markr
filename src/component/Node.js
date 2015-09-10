@@ -17,7 +17,7 @@ export default class Node extends Component {
         <div className="node__name">
           {this.props.type}: {this.props.name}
         </div>
-        {this.props.type === 'layer' &&
+        {this.props.type === 'layer' && this.props.onExportAsImage &&
           <Node.ExportAsImage onClick={e => this.props.onExportAsImage(e)} />}
       </li>
     );
@@ -26,7 +26,7 @@ export default class Node extends Component {
 
 Node.propTypes = {
   onClick: PropTypes.func.isRequired,
-  onExportAsImage: PropTypes.func.isRequired,
+  onExportAsImage: PropTypes.func,
   name: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   selected: PropTypes.bool.isRequired
