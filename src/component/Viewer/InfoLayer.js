@@ -5,29 +5,30 @@ import NodeInfo from './NodeInfo';
 export default class InfoLayer extends Component {
   getContainerStyle() {
     return {
-      left: this.props.x,
-      top: this.props.y
+      left: this.props.viewport.x,
+      top: this.props.viewport.y
     };
   }
 
   render() {
     return (
       <div className="viewer__info-layer" style={this.getContainerStyle()}>
-        { this.props.selectedNode ?
-          <NodeInfo {...this.props} /> : null }
+        { this.props.selectedNode &&
+          <NodeInfo node={this.props.selectedNode}
+            viewport={this.props.viewport} /> }
+        { this.props.hoveredNode &&
+          <NodeInfo node={this.props.hoveredNode}
+            viewport={this.props.viewport}/> }
       </div>
     );
   }
 }
 
 InfoLayer.propTypes = {
-  nodes: PropTypes.array,
   selectedNode: PropTypes.object,
-  x: PropTypes.number.isRequired,
-  y: PropTypes.number.isRequired,
-  docWidth: PropTypes.number.isRequired,
-  docHeight: PropTypes.number.isRequired,
-  width: PropTypes.number.isRequired,
-  height: PropTypes.number.isRequired,
-  scale: PropTypes.number.isRequired
+  hoveredNode: PropTypes.object,
+  viewport: PropTypes.shape({
+    x: PropTypes.number.isRequired,
+    y: PropTypes.number.isRequired,
+  }).isRequired
 };

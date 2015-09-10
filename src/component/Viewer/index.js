@@ -15,7 +15,8 @@ export default class Viewer extends Component {
       y: 0,
       width: 0,
       height: 0,
-      scale: 1
+      scale: 1,
+      hoveredNode: null
     };
 
     this.onResize = this.onResize.bind(this);
@@ -44,6 +45,10 @@ export default class Viewer extends Component {
     window.removeEventListener('resize', this.onResize);
   }
 
+  onHover(index) {
+    ~index && this.setState({ hoveredNode: this.props.nodes[index] });
+  }
+
   onResize() {
     this.setState({
       width: window.innerWidth,
@@ -70,28 +75,27 @@ export default class Viewer extends Component {
       <div className="viewer">
         <DragAndDrop
           onDrop={this.props.onDrop} >
-          {this.props.src && (
-            <Selector
-              {...this.state}
-              nodes={this.props.nodes}
+          <Selector
+            {...this.state}
+            nodes={this.props.nodes}
+            selectedNode={this.props.selectedNode}
+            onUpdateXY={(pos) => this.updateXY(pos)}
+            onSelect={this.props.onSelect}
+            onHover={(index) => this.onHover(index)}>
+            <div className="viewer__container" style={this.getContainerStyle()}>
+              {this.props.src && <img className="viewer__preview-layer" src={this.props.src} />}
+            </div>
+            <InfoLayer
               selectedNode={this.props.selectedNode}
-              onUpdateXY={(pos) => this.updateXY(pos)}
-              onSelect={this.props.onSelect}>
-              <div className="viewer__container" style={this.getContainerStyle()}>
-                {this.props.src && <img className="viewer__preview-layer" src={this.props.src} />}
-              </div>
-              <InfoLayer
-                nodes={this.props.nodes}
-                selectedNode={this.props.selectedNode}
-                x={this.state.x}
-                y={this.state.y}
-                docWidth={this.state.docWidth}
-                docHeight={this.state.docHeight}
-                width={this.state.width}
-                height={this.state.height}
-                scale={this.state.scale}/>
-            </Selector>
-          )}
+              hoveredNode={this.state.hoveredNode}
+              viewport={{
+                x: this.state.x,
+                y: this.state.y,
+                width: this.state.width,
+                height: this.state.height,
+                scale: this.state.scale
+              }} />
+          </Selector>
         </DragAndDrop>
         <div className="viewer__zoom">
           <input type="range" min="0" max="2" step="0.01"

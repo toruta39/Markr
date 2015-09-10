@@ -13,18 +13,94 @@ export default class Selector extends Component {
       lastY: 0,
       menuX: 0,
       menuY: 0,
-      psdX: null,
-      psdY: null,
+      psdX: 0,
+      psdY: 0,
       showCandidateNodes: false,
       candidateNodeIndices: []
     };
+
+    this._canvas = document.createElement('canvas');
+    this._ctx = this._canvas.getContext('2d');
+    this.depthMap = null;
+
+    document.body.appendChild(this._canvas);
 
     this.onMouseDown = this.onMouseDown.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
     this.onMouseUp = this.onMouseUp.bind(this);
   }
 
+  updateDepthMap() {
+    const nodes = this.props.nodes;
+    const drawn = new Set();
+
+    if (!nodes.length) return;
+
+    const canvas = this._canvas;
+    const ctx = this._ctx;
+
+    canvas.width = this.props.docWidth;
+    canvas.height = this.props.docHeight;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    function fill(node, i) {
+      if (drawn.has(i)) return;
+
+      if (node.parents.length) {
+        let parentIndex = node.parents[node.parents.length - 1];
+        fill(nodes[parentIndex], parentIndex)
+      }
+
+      ctx.fillStyle = '#' + ('00000' + i.toString(16)).slice(-6);
+      ctx.fillRect(node.left, node.top, node.width, node.height);
+
+      drawn.add(i);
+    }
+
+    for (let i = nodes.length - 1; i >= 0; --i) {
+      fill(nodes[i], i);
+    }
+
+    this.depthMap = ctx.getImageData(
+      0, 0, canvas.width, canvas.height).data;
+  }
+
+  getDepthByPoint(psdX, psdY) {
+    if (psdX < 0 || psdX > this.props.docWidth - 1 ||
+        psdY < 0 || psdY > this.props.docHeight - 1) {
+      return -1;
+    }
+
+    const i = (psdY * this.props.docWidth + psdX) * 4;
+    return parseInt(this.depthMap[i].toString(16) +
+      this.depthMap[i+1].toString(16) +
+      this.depthMap[i+2].toString(16), 16);
+  }
+
+  // return indices of all nodes that hit
+  getAllHoveredNodesIndices() {
+    let [x, y] = [this.state.psdX, this.state.psdY];
+
+    return this.props.nodes.reduce((acc, node, i) => {
+      if (node.left < x && x < node.left + node.width &&
+        node.top < y && y < node.top + node.height) {
+        acc.push(i);
+      }
+      return acc;
+    }, []);
+  }
+
+  getVisibleHoveredNodesIndices() {
+    let nodes = this.props.nodes;
+
+    return this.getAllHoveredNodesIndices().filter((index) => {
+      return nodes[index].visible;
+    });
+  }
+
   componentDidMount() {
+    this.updateDepthMap();
+
     this.domNode = findDOMNode(this);
 
     window.addEventListener('mousedown', this.onMouseDown);
@@ -36,6 +112,12 @@ export default class Selector extends Component {
     window.removeEventListener('mousedown', this.onMouseDown);
     window.removeEventListener('mousemove', this.onMouseMove);
     window.removeEventListener('mouseup', this.onMouseUp);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.nodes !== prevProps.nodes) {
+      this.updateDepthMap();
+    }
   }
 
   onMouseDown(e) {
@@ -76,50 +158,20 @@ export default class Selector extends Component {
     if (!isChildDOMOf(e.target, this.domNode)) return;
 
     // map mouse position to psd coord
-    this.setState({
-      psdX: (e.pageX - this.props.x) / this.props.scale,
-      psdY: (e.pageY - this.props.y) / this.props.scale
-    });
-  }
+    let [ psdX, psdY ] = [
+      (e.pageX - this.props.x) / this.props.scale,
+      (e.pageY - this.props.y) / this.props.scale
+    ];
 
-  // return indices of all nodes that hit
-  getAllHoverdNodesIndices() {
-    let [x, y] = [this.state.psdX, this.state.psdY];
-
-    return this.props.nodes.reduce((acc, node, i) => {
-      if (node.left < x && x < node.left + node.width &&
-        node.top < y && y < node.top + node.height) {
-        acc.push(i);
-      }
-      return acc;
-    }, []);
-  }
-
-  getVisibleHoveredNodesIndices() {
-    let nodes = this.props.nodes;
-
-    return this.getAllHoverdNodesIndices().filter((index) => {
-      return nodes[index].visible;
-    });
-  }
-
-  // return the top hit only
-  // TODO this is a little slow for realtime use, needs optimization
-  getHoveredNodeIndex() {
-    let nodes = this.props.nodes;
-
-    return this.getVisibleHoveredNodesIndices().reduce((acc, index, i, indices) => {
-      let node = nodes[index];
-      if (node.parents.indexOf(acc) === node.parents.length - 1) return index;
-      return acc;
-    }, -1);
+    this.setState({ psdX, psdY });
+    this.props.onHover(this.getDepthByPoint(psdX, psdY));
   }
 
   onMouseUp(e) {
     if (this.state.isMouseDown) {
       if (!this.state.isDragging) {
         if (e.button === 0) {
-          this.props.onSelect(this.getHoveredNodeIndex());
+          this.props.onSelect(this.getDepthByPoint(this.state.psdX, this.state.psdY));
         }
 
         if (e.button === 2) {
@@ -182,13 +234,6 @@ Selector.propTypes = {
     height: PropTypes.number.isRequired,
     visible: PropTypes.bool.isRequired
   })).isRequired,
-  selectedNode: PropTypes.shape({
-    left: PropTypes.number.isRequired,
-    top: PropTypes.number.isRequired,
-    width: PropTypes.number.isRequired,
-    height: PropTypes.number.isRequired,
-    visible: PropTypes.bool.isRequired
-  }).isRequired,
   src: PropTypes.string,
   x: PropTypes.number.isRequired,
   y: PropTypes.number.isRequired,
@@ -197,5 +242,6 @@ Selector.propTypes = {
   scale: PropTypes.number.isRequired,
   onUpdateXY: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired,
+  onHover: PropTypes.func.isRequired,
   children: PropTypes.element.isRequired
 };

@@ -3,37 +3,37 @@ import React, { Component, PropTypes } from 'react';
 
 export default class NodeInfo extends Component {
   render() {
-    const selectedNode = this.props.selectedNode;
+    const node = this.props.node;
 
     return (
       <div className="node-info"
         style={{
-          top: `${selectedNode.top * this.props.scale - 1}px`,
-          left: `${selectedNode.left * this.props.scale - 1}px`,
-          width: `${selectedNode.width * this.props.scale}px`,
-          height: `${selectedNode.height * this.props.scale}px`,
+          top: `${node.top * this.props.viewport.scale - 1}px`,
+          left: `${node.left * this.props.viewport.scale - 1}px`,
+          width: `${node.width * this.props.viewport.scale}px`,
+          height: `${node.height * this.props.viewport.scale}px`,
         }}>
         <div className="node-info__top-border" style={{
-          left: `${-this.props.x - (selectedNode.left * this.props.scale - 1)}px`,
-          width: `${this.props.width}px`
+          left: `${-this.props.viewport.x - (node.left * this.props.viewport.scale - 1)}px`,
+          width: `${this.props.viewport.width}px`
         }}></div>
         <div className="node-info__left-border" style={{
-          top: `${-this.props.y - (selectedNode.top * this.props.scale - 1)}px`,
-          height: `${this.props.height}px`
+          top: `${-this.props.viewport.y - (node.top * this.props.viewport.scale - 1)}px`,
+          height: `${this.props.viewport.height}px`
         }}></div>
         <div className="node-info__right-border"style={{
-          top: `${-this.props.y - (selectedNode.top * this.props.scale - 1)}px`,
-          height: `${this.props.height}px`
+          top: `${-this.props.viewport.y - (node.top * this.props.viewport.scale - 1)}px`,
+          height: `${this.props.viewport.height}px`
         }}></div>
         <div className="node-info__bottom-border" style={{
-          left: `${-this.props.x - (selectedNode.left * this.props.scale - 1)}px`,
-          width: `${this.props.width}px`
+          left: `${-this.props.viewport.x - (node.left * this.props.viewport.scale - 1)}px`,
+          width: `${this.props.viewport.width}px`
         }}></div>
         <div className="node-info__width">
-          <span className="node-info__width-label">{`${selectedNode.width}px`}</span>
+          <span className="node-info__width-label">{`${node.width}px`}</span>
         </div>
         <div className="node-info__height">
-          <span className="node-info__height-label">{`${selectedNode.height}px`}</span>
+          <span className="node-info__height-label">{`${node.height}px`}</span>
         </div>
       </div>
     );
@@ -41,7 +41,7 @@ export default class NodeInfo extends Component {
 }
 
 NodeInfo.propTypes = {
-  selectedNode: PropTypes.shape({
+  node: PropTypes.shape({
     top: PropTypes.number.isRequired,
     right: PropTypes.number.isRequired,
     bottom: PropTypes.number.isRequired,
@@ -49,9 +49,11 @@ NodeInfo.propTypes = {
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired
   }).isRequired,
-  x: PropTypes.number.isRequired,
-  y: PropTypes.number.isRequired,
-  docWidth: PropTypes.number.isRequired,
-  docHeight: PropTypes.number.isRequired,
-  scale: PropTypes.number.isRequired
+  viewport: PropTypes.shape({
+    x: PropTypes.number.isRequired,
+    y: PropTypes.number.isRequired,
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
+    scale: PropTypes.number.isRequired
+  }).isRequired
 };
