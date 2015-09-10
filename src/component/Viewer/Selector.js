@@ -244,5 +244,5 @@ Selector.propTypes = {
   onUpdateXY: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired,
   onHover: PropTypes.func.isRequired,
-  children: PropTypes.element.isRequired
+  children: PropTypes.node.isRequired
 };

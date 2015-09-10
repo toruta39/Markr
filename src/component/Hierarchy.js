@@ -13,5 +13,5 @@ export default class Hierarchy extends Component {
 }
 
 Hierarchy.propTypes = {
-  children: PropTypes.array.isRequired
+  children: PropTypes.node.isRequired
 };
