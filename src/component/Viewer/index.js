@@ -2,7 +2,7 @@ import './index.scss';
 import React, { Component, PropTypes } from 'react';
 import DragAndDrop from './DragAndDrop';
 import InfoLayer from './InfoLayer';
-import Selector from './Plugin/Selector';
+import Selector from './Selector';
 
 export default class Viewer extends Component {
   constructor(props) {
@@ -74,11 +74,16 @@ export default class Viewer extends Component {
     return (
       <div className="viewer">
         <DragAndDrop
-          onDrop={this.props.onDrop} >
+          onDrop={this.props.onDrop}>
           <Selector
-            {...this.state}
             nodes={this.props.nodes}
-            selectedNode={this.props.selectedNode}
+            viewport={{
+              x: this.state.x,
+              y: this.state.y,
+              docWidth: this.state.docWidth,
+              docHeight: this.state.docHeight,
+              scale: this.state.scale
+            }}
             onUpdateXY={(pos) => this.updateXY(pos)}
             onSelect={this.props.onSelect}
             onHover={(index) => this.onHover(index)}>

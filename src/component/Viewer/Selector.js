@@ -1,6 +1,6 @@
 import React, { Component, PropTypes, findDOMNode } from 'react';
-import isChildDOMOf from '../../../util/isChildDOMOf';
-import Node from '../../Node';
+import isChildDOMOf from '../../util/isChildDOMOf';
+import Node from '../Node';
 
 export default class Selector extends Component {
   constructor(props) {
@@ -39,8 +39,8 @@ export default class Selector extends Component {
     const canvas = this._canvas;
     const ctx = this._ctx;
 
-    canvas.width = this.props.docWidth;
-    canvas.height = this.props.docHeight;
+    canvas.width = this.props.viewport.docWidth;
+    canvas.height = this.props.viewport.docHeight;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     function fill(node, i) {
@@ -66,12 +66,12 @@ export default class Selector extends Component {
   }
 
   getDepthByPoint(psdX, psdY) {
-    if (psdX < 0 || psdX > this.props.docWidth - 1 ||
-        psdY < 0 || psdY > this.props.docHeight - 1) {
+    if (psdX < 0 || psdX > this.props.viewport.docWidth - 1 ||
+        psdY < 0 || psdY > this.props.viewport.docHeight - 1) {
       return -1;
     }
 
-    const i = (psdY * this.props.docWidth + psdX) * 4;
+    const i = (psdY * this.props.viewport.docWidth + psdX) * 4;
     return parseInt(this.depthMap[i].toString(16) +
       this.depthMap[i+1].toString(16) +
       this.depthMap[i+2].toString(16), 16);
@@ -140,8 +140,8 @@ export default class Selector extends Component {
       e.preventDefault();
 
       this.props.onUpdateXY({
-        x: this.props.x + e.pageX - this.state.lastX,
-        y: this.props.y + e.pageY - this.state.lastY,
+        x: this.props.viewport.x + e.pageX - this.state.lastX,
+        y: this.props.viewport.y + e.pageY - this.state.lastY,
       });
 
       this.setState({
@@ -159,8 +159,8 @@ export default class Selector extends Component {
 
     // map mouse position to psd coord
     let [ psdX, psdY ] = [
-      (e.pageX - this.props.x) / this.props.scale,
-      (e.pageY - this.props.y) / this.props.scale
+      (e.pageX - this.props.viewport.x) / this.props.viewport.scale,
+      (e.pageY - this.props.viewport.y) / this.props.viewport.scale
     ];
 
     this.setState({ psdX, psdY });
@@ -234,12 +234,13 @@ Selector.propTypes = {
     height: PropTypes.number.isRequired,
     visible: PropTypes.bool.isRequired
   })).isRequired,
-  src: PropTypes.string,
-  x: PropTypes.number.isRequired,
-  y: PropTypes.number.isRequired,
-  docWidth: PropTypes.number.isRequired,
-  docHeight: PropTypes.number.isRequired,
-  scale: PropTypes.number.isRequired,
+  viewport: PropTypes.shape({
+    x: PropTypes.number.isRequired,
+    y: PropTypes.number.isRequired,
+    docWidth: PropTypes.number.isRequired,
+    docHeight: PropTypes.number.isRequired,
+    scale: PropTypes.number.isRequired
+  }).isRequired,
   onUpdateXY: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired,
   onHover: PropTypes.func.isRequired,
