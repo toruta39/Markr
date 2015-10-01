@@ -43,16 +43,32 @@ export default class Selector extends Component {
     canvas.height = this.props.viewport.docHeight;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    function isVisible(node) {
+      if (!node.visible) return false;
+
+      let result = true;
+
+      node.parents.forEach((parent) => {
+        if (!nodes[parent].visible) {
+          result = false;
+        }
+      });
+
+      return result;
+    }
+
     function fill(node, i) {
       if (drawn.has(i)) return;
 
       if (node.parents.length) {
         let parentIndex = node.parents[node.parents.length - 1];
-        fill(nodes[parentIndex], parentIndex)
+        fill(nodes[parentIndex], parentIndex);
       }
 
-      ctx.fillStyle = '#' + ('00000' + i.toString(16)).slice(-6);
-      ctx.fillRect(node.left, node.top, node.width, node.height);
+      if (isVisible(node) && node.type === 'layer') {
+        ctx.fillStyle = '#' + ('00000' + i.toString(16)).slice(-6);
+        ctx.fillRect(node.left, node.top, node.width, node.height);
+      }
 
       drawn.add(i);
     }
@@ -159,8 +175,8 @@ export default class Selector extends Component {
 
     // map mouse position to psd coord
     let [ psdX, psdY ] = [
-      (e.pageX - this.props.viewport.x) / this.props.viewport.scale,
-      (e.pageY - this.props.viewport.y) / this.props.viewport.scale
+      (e.pageX - this.props.viewport.x) / this.props.viewport.scale | 0,
+      (e.pageY - this.props.viewport.y) / this.props.viewport.scale | 0
     ];
 
     this.setState({ psdX, psdY });
