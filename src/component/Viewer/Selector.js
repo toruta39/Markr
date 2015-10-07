@@ -1,3 +1,6 @@
+// TODO: promote CandidateNodes to Component
+import './CandidateNodes.scss';
+
 import React, { Component, PropTypes, findDOMNode } from 'react';
 import isChildDOMOf from '../../util/isChildDOMOf';
 import Node from '../Node';
@@ -22,8 +25,6 @@ export default class Selector extends Component {
     this._canvas = document.createElement('canvas');
     this._ctx = this._canvas.getContext('2d');
     this.depthMap = null;
-
-    document.body.appendChild(this._canvas);
 
     this.onMouseDown = this.onMouseDown.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
@@ -211,6 +212,7 @@ export default class Selector extends Component {
         {
           this.state.showCandidateNodes && (
             <ul
+              className="candidateNodes"
               onMouseDown={e => e.stopPropagation()}
               onMouseMove={e => e.stopPropagation()}
               onMouseUp={e => e.stopPropagation()}

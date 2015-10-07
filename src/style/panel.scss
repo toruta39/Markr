@@ -6,7 +6,8 @@
   min-width: rem(160);
   width: rem(160);
   flex-grow: 0;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   background-color: transparentize($cinder, .2);
 
   &__title {

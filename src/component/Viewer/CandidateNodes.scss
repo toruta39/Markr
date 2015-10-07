@@ -1,0 +1,9 @@
+@import 'color';
+
+.candidateNodes {
+  width: 200px;
+  height: 180px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: transparentize($cinder, .2);
+}
