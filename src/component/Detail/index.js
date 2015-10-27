@@ -11,6 +11,7 @@ export default class Detail extends Component {
       <li><div>Sizes</div><div>{text.font.sizes.join()}</div></li>,
       <li><div>Colors</div><div>{text.font.colors.join()}</div></li>,
       <li><div>Alignments</div><div>{text.font.alignment.join()}</div></li>,
+      <li><div>Leadings</div><div>{text.font.leadings.join()}</div></li>,
       <li>
         <div>Text</div>
         <CopyableTextarea value={text.value} onCopy={this.props.onCopy} />
