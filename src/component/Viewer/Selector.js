@@ -1,7 +1,8 @@
 // TODO: promote CandidateNodes to Component
 import './CandidateNodes.scss';
 
-import React, { Component, PropTypes, findDOMNode } from 'react';
+import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import isChildDOMOf from '../../util/isChildDOMOf';
 import Node from '../Node';
 
@@ -118,7 +119,7 @@ export default class Selector extends Component {
   componentDidMount() {
     this.updateDepthMap();
 
-    this.domNode = findDOMNode(this);
+    this.domNode = ReactDOM.findDOMNode(this);
 
     window.addEventListener('mousedown', this.onMouseDown);
     window.addEventListener('mousemove', this.onMouseMove);
