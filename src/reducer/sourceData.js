@@ -1,4 +1,4 @@
-import { SET_FILE_HIERARCHY, SELECT_NODE, RESET_NODES } from '../actions';
+import { SET_FILE_HIERARCHY, SELECT_NODE, UNSELECT_NODE, RESET_NODES } from '../actions';
 
 const initialData = {
   selection: [],
@@ -24,6 +24,11 @@ export default function sourceData(state=initialData, action) {
       return {
         ...state,
         selection: ~action.index ? [action.index] : []
+      };
+    case UNSELECT_NODE:
+      return {
+        ...state,
+        selection: []
       };
     case RESET_NODES:
       return {

@@ -20,6 +20,7 @@ export const SET_FILE_HIERARCHY = 'SET_FILE_HIERARCHY';
 export const SET_FILE_PREVIEW = 'SET_FILE_PREVIEW';
 
 export const SELECT_NODE = 'SELECT_NODE';
+export const UNSELECT_NODE = 'UNSELECT_NODE';
 export const EXPORT_NODE_AS_IMAGE = 'EXPORT_NODE_AS_IMAGE';
 export const EXPORT_NODE_AS_IMAGE_SUCCESS = 'EXPORT_NODE_AS_IMAGE_SUCCESS';
 export const EXPORT_NODE_AS_IMAGE_ERROR = 'EXPORT_NODE_AS_IMAGE_ERROR';
@@ -87,6 +88,10 @@ export function setFilePreview(imgPath) {
 
 export function selectNode(index) {
   return { type: SELECT_NODE, index };
+}
+
+export function unselectNode(index) {
+  return { type: UNSELECT_NODE };
 }
 
 export function exportNodeAsImage(index) {
