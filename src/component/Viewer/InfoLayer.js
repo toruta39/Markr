@@ -11,14 +11,17 @@ export default class InfoLayer extends Component {
   }
 
   render() {
+    const node = this.props.hoveredNode || this.props.selectedNode,
+      referenceNode = node === this.props.selectedNode ? null : this.props.selectedNode;
+
     return (
       <div className="viewer__info-layer" style={this.getContainerStyle()}>
-        { this.props.selectedNode &&
-          <NodeInfo node={this.props.selectedNode}
-            viewport={this.props.viewport} /> }
-        { this.props.hoveredNode &&
-          <NodeInfo node={this.props.hoveredNode}
-            viewport={this.props.viewport}/> }
+        {
+          node && <NodeInfo
+            node={node}
+            referenceNode={referenceNode}
+            viewport={this.props.viewport}/>
+        }
       </div>
     );
   }
