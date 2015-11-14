@@ -2,7 +2,7 @@
 import './CandidateNodes.scss';
 
 import React, { Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
+import { findDOMNode } from 'react-dom';
 import isChildDOMOf from '../../util/isChildDOMOf';
 import Node from '../Node';
 
@@ -30,6 +30,7 @@ export default class Selector extends Component {
     this.onMouseDown = this.onMouseDown.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
     this.onMouseUp = this.onMouseUp.bind(this);
+    this.onMouseOut = this.onMouseOut.bind(this);
   }
 
   updateDepthMap() {
@@ -117,19 +118,21 @@ export default class Selector extends Component {
   }
 
   componentDidMount() {
-    this.updateDepthMap();
+    this.domNode = findDOMNode(this);
 
-    this.domNode = ReactDOM.findDOMNode(this);
+    this.updateDepthMap();
 
     window.addEventListener('mousedown', this.onMouseDown);
     window.addEventListener('mousemove', this.onMouseMove);
     window.addEventListener('mouseup', this.onMouseUp);
+    window.addEventListener('mouseout', this.onMouseOut);
   }
 
   componentWillUnmount() {
     window.removeEventListener('mousedown', this.onMouseDown);
     window.removeEventListener('mousemove', this.onMouseMove);
     window.removeEventListener('mouseup', this.onMouseUp);
+    window.removeEventListener('mouseout', this.onMouseOut);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -178,7 +181,7 @@ export default class Selector extends Component {
     // map mouse position to psd coord
     let [ psdX, psdY ] = [
       (e.pageX - this.props.viewport.x) / this.props.viewport.scale | 0,
-      (e.pageY - this.props.viewport.y) / this.props.viewport.scale | 0
+      (e.pageY - this.props.viewport.top - this.props.viewport.y) / this.props.viewport.scale | 0
     ];
 
     this.setState({ psdX, psdY });
@@ -204,6 +207,14 @@ export default class Selector extends Component {
 
       this.setState({ isMouseDown: false, isDragging: false });
     }
+  }
+
+  onMouseOut(e) {
+    if (!isChildDOMOf(e.target, this.domNode) ||
+      isChildDOMOf(e.relatedTarget, this.domNode)) return;
+
+    // clear hovered node when mouse moves out of viewport
+    this.props.onHover(-1);
   }
 
   render() {
