@@ -1,11 +1,13 @@
 @import 'bourbon';
+@import 'color';
 
 .viewer {
   position: relative;
   flex-grow: 1;
+  background-color: #555;
 
   &__drag-and-drop {
-    position: fixed;
+    position: absolute;
     height: 100%;
     width: 100%;
   }
@@ -26,6 +28,7 @@
 
     img {
       display: block;
+      box-shadow: 0 0 60px rgba(0,0,0,.3);
     }
   }
 

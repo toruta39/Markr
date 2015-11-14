@@ -21,7 +21,7 @@ export default class Detail extends Component {
 
   render() {
     return (
-      <section className="panel">
+      <section className="pane-sm pane sidebar">
         <h2 className="panel__title">Detail</h2>
         {this.props.node ? (
           <ul>

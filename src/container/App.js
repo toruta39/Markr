@@ -18,7 +18,7 @@ class App extends Component {
     const { dispatch, meta, preview, sourceData, selectedNode } = this.props;
 
     return (
-      <div className="app">
+      <div className="app pane-group">
         <Viewer
           src={preview.imgPath}
           document={sourceData.document}

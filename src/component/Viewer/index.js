@@ -1,5 +1,6 @@
 import './index.scss';
 import React, { Component, PropTypes } from 'react';
+import { findDOMNode } from 'react-dom';
 import DragAndDrop from './DragAndDrop';
 import InfoLayer from './InfoLayer';
 import Selector from './Selector';
@@ -31,11 +32,14 @@ export default class Viewer extends Component {
   }
 
   componentDidMount() {
+    this.domNode = findDOMNode(this);
+
     this.setState({
       width: window.innerWidth,
       height: window.innerHeight,
       x: 0,
-      y: 0
+      y: 0,
+      top: this.domNode.getBoundingClientRect().top
     });
 
     window.addEventListener('resize', this.onResize);
@@ -72,12 +76,13 @@ export default class Viewer extends Component {
 
   render() {
     return (
-      <div className="viewer">
+      <div className="pane viewer">
         <DragAndDrop
           onDrop={this.props.onDrop}>
           <Selector
             nodes={this.props.nodes}
             viewport={{
+              top: this.state.top,
               x: this.state.x,
               y: this.state.y,
               docWidth: this.state.docWidth,
@@ -94,6 +99,7 @@ export default class Viewer extends Component {
               selectedNode={this.props.selectedNode}
               hoveredNode={this.state.hoveredNode}
               viewport={{
+                top: this.state.top,
                 x: this.state.x,
                 y: this.state.y,
                 width: this.state.width,
