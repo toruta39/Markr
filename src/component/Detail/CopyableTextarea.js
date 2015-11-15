@@ -1,17 +1,14 @@
-import React, { Component, PropTypes } from 'react';
-import CopyableText from './CopyableText';
+import React from 'react';
 
-export default class CopyableTextarea extends CopyableText {
-  render() {
-    return (
-      <div>
-        <textarea readOnly value={this.props.value} />
-        <button onClick={e => this.onCopyClick(e)}>
-          {this.state.isCopied ? 'Copied' : 'Copy'}
-        </button>
-      </div>
-    );
-  }
-}
+var CopyableTextarea = (props) => (
+  <div>
+    <textarea
+      disabled={props.value == null}
+      onMouseOver={({ target }) => target.select()}
+      onMouseOut={({ target }) => target.blur()}
+      onChange={(e) => e.preventDefault()}
+      value={props.value} />
+  </div>
+);
 
-CopyableTextarea.propTypes = { ...CopyableText.propTypes };
+export default CopyableTextarea;

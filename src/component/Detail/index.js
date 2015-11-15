@@ -31,17 +31,17 @@ export default class Detail extends Component {
             <li>
               <div>Offset</div>
               <div>
-                <CopyableText value={this.props.node.top + 'px'} onCopy={this.props.onCopy} />
-                <CopyableText value={this.props.node.right + 'px'} onCopy={this.props.onCopy} />
-                <CopyableText value={this.props.node.bottom + 'px'} onCopy={this.props.onCopy} />
-                <CopyableText value={this.props.node.left + 'px'} onCopy={this.props.onCopy} />
+                <CopyableText value={this.props.node.top} onCopy={this.props.onCopy} />
+                <CopyableText value={this.props.node.right} onCopy={this.props.onCopy} />
+                <CopyableText value={this.props.node.bottom} onCopy={this.props.onCopy} />
+                <CopyableText value={this.props.node.left} onCopy={this.props.onCopy} />
               </div>
             </li>
             <li>
               <div>Size</div>
               <div>
-                <CopyableText value={this.props.node.width + 'px'} onCopy={this.props.onCopy} />
-                <CopyableText value={this.props.node.height + 'px'} onCopy={this.props.onCopy} />
+                <CopyableText value={this.props.node.width} onCopy={this.props.onCopy} />
+                <CopyableText value={this.props.node.height} onCopy={this.props.onCopy} />
               </div>
             </li>
             {this.getTextDetail()}

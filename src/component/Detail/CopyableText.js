@@ -1,44 +1,14 @@
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
 
-export default class CopyableText extends Component {
-  constructor(props) {
-    super(props);
+var CopyableText = (props) => (
+  <div>
+    <input
+      disabled={props.value == null}
+      onMouseOver={({ target }) => target.select()}
+      onMouseOut={({ target }) => target.blur()}
+      onChange={(e) => e.preventDefault()}
+      value={props.value} />
+  </div>
+);
 
-    this.timer = null;
-
-    this.state = { isCopied: false };
-  }
-
-  onCopyClick(e) {
-    e.preventDefault();
-
-    this.props.onCopy({
-      text: this.props.value
-    });
-
-    this.setState({ isCopied: true });
-
-    if (this.timer) {
-      clearTimeout(this.timer);
-      this.timer = null;
-    }
-
-    this.timer = setTimeout(() => this.setState({ isCopied: false }), 1500);
-  }
-
-  render() {
-    return (
-      <div>
-        <input readOnly value={this.props.value} />
-        <button onClick={e => this.onCopyClick(e)}>
-          {this.state.isCopied ? 'Copied' : 'Copy'}
-        </button>
-      </div>
-    );
-  }
-}
-
-CopyableText.propTypes = {
-  onCopy: PropTypes.func.isRequired,
-  value: PropTypes.string.isRequired
-};
+export default CopyableText;
