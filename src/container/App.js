@@ -2,7 +2,7 @@ import './App.scss';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Mousetrap from 'mousetrap';
-import { openFile, selectNode, unselectNode, exportNodeAsImage, setVisibilityFilter, copyContent } from '../actions';
+import { openFile, selectNode, unselectNode, exportNodeAsImage, setVisibilityFilter, copyContent, copyNodeText } from '../actions';
 import Viewer from '../component/Viewer';
 import Hierarchy from '../component/Hierarchy';
 import Node from '../component/Node';
@@ -11,7 +11,9 @@ import Detail from '../component/Detail';
 class App extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
+
     Mousetrap.bind('esc', e => dispatch(unselectNode()));
+    Mousetrap.bind('command+c', (e) => dispatch(copyNodeText(this.props.selectedNode)));
   }
 
   render() {

@@ -13,6 +13,7 @@ import uuid from 'uuid';
  */
 
 export const COPY_CONTENT = 'COPY_CONTENT';
+export const COPY_NODE_TEXT = 'COPY_NODE_TEXT';
 
 export const OPEN_FILE = 'OPEN_FILE';
 export const SET_FILE_PSD_INSTANCE = 'SET_FILE_PSD_INSTANCE';
@@ -72,6 +73,13 @@ export function copyContent(content) {
     clipboard.writeText(content.text);
   }
   return { type: COPY_CONTENT, content };
+}
+
+export function copyNodeText(node) {
+  if (node && node.text) {
+    clipboard.writeText(node.text.value);
+  }
+  return { type: COPY_NODE_TEXT, node };
 }
 
 export function setFilePsdInstance(psd) {
