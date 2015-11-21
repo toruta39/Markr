@@ -7,6 +7,7 @@ const path = nRequire('path');
 const clipboard = nRequire('clipboard');
 
 import uuid from 'uuid';
+import toTextCss from './util/toTextCss';
 
 /*
  * action types
@@ -14,6 +15,7 @@ import uuid from 'uuid';
 
 export const COPY_CONTENT = 'COPY_CONTENT';
 export const COPY_NODE_TEXT = 'COPY_NODE_TEXT';
+export const COPY_TEXT_STYLE = 'COPY_TEXT_STYLE';
 
 export const OPEN_FILE = 'OPEN_FILE';
 export const SET_FILE_PSD_INSTANCE = 'SET_FILE_PSD_INSTANCE';
@@ -80,6 +82,13 @@ export function copyNodeText(node) {
     clipboard.writeText(node.text.value);
   }
   return { type: COPY_NODE_TEXT, node };
+}
+
+export function copyTextStyle(node) {
+  if (node && node.text) {
+    clipboard.writeText(toTextCss(node.text));
+  }
+  return { type: COPY_TEXT_STYLE, node };
 }
 
 export function setFilePsdInstance(psd) {
