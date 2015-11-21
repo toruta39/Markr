@@ -1,11 +1,11 @@
 {
-  "name": "tailr",
-  "productName": "Tailr",
+  "name": "markr",
+  "productName": "Markr",
   "version": "0.0.0",
   "description": "My super app",
   "license": "MIT",
   "main": "index.js",
-  "repository": "toruta39/tailr",
+  "repository": "toruta39/markr",
   "author": {
     "name": "Joshua Zhang",
     "email": "toruta39@gmail.com",
