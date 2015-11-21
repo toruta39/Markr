@@ -13,8 +13,8 @@ class App extends Component {
     const { dispatch } = this.props;
 
     Mousetrap.bind('esc', e => dispatch(unselectNode()));
-    Mousetrap.bind('ctrl+c', (e) => dispatch(copyNodeText(this.props.selectedNode)));
-    Mousetrap.bind('ctrl+t', (e) => dispatch(copyTextStyle(this.props.selectedNode)));
+    Mousetrap.bind('command+c', (e) => dispatch(copyNodeText(this.props.selectedNode)));
+    Mousetrap.bind('command+alt+c', (e) => dispatch(copyTextStyle(this.props.selectedNode)));
   }
 
   render() {
