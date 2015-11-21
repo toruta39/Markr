@@ -1,0 +1,12 @@
+@import 'bourbon';
+
+.zoomer {
+  width: 100%;
+  height: 100%;
+}
+
+.zoomer__range-input {
+  position: absolute;
+  left: rem(16);
+  bottom: rem(16);
+}

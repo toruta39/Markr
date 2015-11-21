@@ -4,6 +4,7 @@ import { findDOMNode } from 'react-dom';
 import DragAndDrop from './DragAndDrop';
 import InfoLayer from './InfoLayer';
 import Selector from './Selector';
+import Zoomer from './Zoomer';
 
 export default class Viewer extends Component {
   constructor(props) {
@@ -21,10 +22,11 @@ export default class Viewer extends Component {
     };
 
     this.onResize = this.onResize.bind(this);
+    this.onZoomChange = this.onZoomChange.bind(this);
   }
 
-  onZoomChange(e) {
-    this.setState({ scale: +e.target.value });
+  onZoomChange(scale) {
+    this.setState({ scale: scale });
   }
 
   updateXY(pos) {
@@ -77,41 +79,39 @@ export default class Viewer extends Component {
   render() {
     return (
       <div className="pane viewer">
-        <DragAndDrop
-          onDrop={this.props.onDrop}>
-          <Selector
-            nodes={this.props.nodes}
-            viewport={{
-              top: this.state.top,
-              x: this.state.x,
-              y: this.state.y,
-              docWidth: this.state.docWidth,
-              docHeight: this.state.docHeight,
-              scale: this.state.scale
-            }}
-            onUpdateXY={(pos) => this.updateXY(pos)}
-            onSelect={this.props.onSelect}
-            onHover={(index) => this.onHover(index)}>
-            <div className="viewer__container" style={this.getContainerStyle()}>
-              {this.props.src && <img className="viewer__preview-layer" src={this.props.src} />}
-            </div>
-            <InfoLayer
-              selectedNode={this.props.selectedNode}
-              hoveredNode={this.state.hoveredNode}
+        <DragAndDrop onDrop={this.props.onDrop}>
+          <Zoomer scale={ this.state.scale } min={0.05} max={2}
+            onZoomChange={ this.onZoomChange }>
+            <Selector
+              nodes={this.props.nodes}
               viewport={{
                 top: this.state.top,
                 x: this.state.x,
                 y: this.state.y,
-                width: this.state.width,
-                height: this.state.height,
+                docWidth: this.state.docWidth,
+                docHeight: this.state.docHeight,
                 scale: this.state.scale
-              }} />
-          </Selector>
+              }}
+              onUpdateXY={(pos) => this.updateXY(pos)}
+              onSelect={this.props.onSelect}
+              onHover={(index) => this.onHover(index)}>
+              <div className="viewer__container" style={this.getContainerStyle()}>
+                {this.props.src && <img className="viewer__preview-layer" src={this.props.src} />}
+              </div>
+              <InfoLayer
+                selectedNode={this.props.selectedNode}
+                hoveredNode={this.state.hoveredNode}
+                viewport={{
+                  top: this.state.top,
+                  x: this.state.x,
+                  y: this.state.y,
+                  width: this.state.width,
+                  height: this.state.height,
+                  scale: this.state.scale
+                }} />
+            </Selector>
+          </Zoomer>
         </DragAndDrop>
-        <div className="viewer__zoom">
-          <input type="range" min="0" max="2" step="0.01"
-            value={this.state.scale} onChange={e => this.onZoomChange(e)} />
-        </div>
       </div>
     );
   }
