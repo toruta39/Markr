@@ -32,12 +32,10 @@ class App extends Component {
           onSelect={index => dispatch(selectNode(index))} />
         <Hierarchy>
           {sourceData.nodes.map((node, index) =>
-            <Node
-              {...node}
+            <Node {...node}
               key={index}
               selected={sourceData.selection.indexOf(index) > -1}
-              onClick={() => dispatch(selectNode(index))}
-              onExportAsImage={() => dispatch(exportNodeAsImage(index))} />
+              onClick={() => dispatch(selectNode(index))} />
           )}
         </Hierarchy>
         <Detail node={selectedNode || sourceData.document || null}

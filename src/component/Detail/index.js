@@ -20,6 +20,7 @@ export default class Detail extends Component {
   }
 
   render() {
+    // TODO add export as image feature
     return (
       <section className="pane-sm pane sidebar">
         <h2 className="panel__title">Detail</h2>
