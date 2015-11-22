@@ -9,6 +9,7 @@ import Node from '../component/Node';
 import Detail from '../component/Detail';
 
 class App extends Component {
+  // TODO move hotkey mapping to another component, use composition
   componentDidMount() {
     const { dispatch } = this.props;
 

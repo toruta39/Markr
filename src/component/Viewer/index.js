@@ -80,7 +80,7 @@ export default class Viewer extends Component {
     return (
       <div className="pane viewer">
         <DragAndDrop onDrop={this.props.onDrop}>
-          <Zoomer scale={ this.state.scale } min={0.05} max={2}
+          <Zoomer scale={ this.state.scale } min={0.05} max={3}
             onZoomChange={ this.onZoomChange }>
             <Selector
               nodes={this.props.nodes}
