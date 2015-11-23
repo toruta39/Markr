@@ -24,6 +24,7 @@ export const SET_FILE_PREVIEW = 'SET_FILE_PREVIEW';
 
 export const SELECT_NODE = 'SELECT_NODE';
 export const UNSELECT_NODE = 'UNSELECT_NODE';
+export const TOGGLE_NODE_COLLAPSED = 'TOGGLE_NODE_COLLAPSED';
 export const EXPORT_NODE_AS_IMAGE = 'EXPORT_NODE_AS_IMAGE';
 export const EXPORT_NODE_AS_IMAGE_SUCCESS = 'EXPORT_NODE_AS_IMAGE_SUCCESS';
 export const EXPORT_NODE_AS_IMAGE_ERROR = 'EXPORT_NODE_AS_IMAGE_ERROR';
@@ -107,8 +108,12 @@ export function selectNode(index) {
   return { type: SELECT_NODE, index };
 }
 
-export function unselectNode(index) {
+export function unselectNode() {
   return { type: UNSELECT_NODE };
+}
+
+export function toggleNodeCollapsed(index) {
+  return { type: TOGGLE_NODE_COLLAPSED, index };
 }
 
 export function exportNodeAsImage(index) {

@@ -2,7 +2,7 @@ import './App.scss';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Mousetrap from 'mousetrap';
-import { openFile, selectNode, unselectNode, exportNodeAsImage, setVisibilityFilter, copyContent, copyNodeText, copyTextStyle } from '../actions';
+import { openFile, selectNode, unselectNode, toggleNodeCollapsed, exportNodeAsImage, setVisibilityFilter, copyContent, copyNodeText, copyTextStyle } from '../actions';
 import Viewer from '../component/Viewer';
 import Hierarchy from '../component/Hierarchy';
 import Node from '../component/Node';
@@ -31,11 +31,12 @@ class App extends Component {
           onDrop={file => dispatch(openFile(file))}
           onSelect={index => dispatch(selectNode(index))} />
         <Hierarchy>
-          {sourceData.nodes.map((node, index) =>
-            <Node {...node}
-              key={index}
-              selected={sourceData.selection.indexOf(index) > -1}
-              onClick={() => dispatch(selectNode(index))} />
+          { sourceData.nodes.map((node, index) =>
+            <Node { ...node }
+              key={ index }
+              selected={ sourceData.selection.indexOf(index) > -1 }
+              onClick={ () => dispatch(selectNode(index)) }
+              onToggleCollapsed={ () => dispatch(toggleNodeCollapsed(index)) } />
           )}
         </Hierarchy>
         <Detail node={selectedNode || sourceData.document || null}

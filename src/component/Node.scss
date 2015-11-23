@@ -1,3 +1,10 @@
-.node--selected {
-  background-color: #ccc;
+.node--hidden {
+  display: none;
+}
+
+.node__collapsed-button {
+  display: inline-block;
+  width: 10px;
+  margin-right: 10px;
+  vertical-align: middle;
 }

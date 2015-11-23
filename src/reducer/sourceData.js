@@ -1,4 +1,4 @@
-import { SET_FILE_HIERARCHY, SELECT_NODE, UNSELECT_NODE, RESET_NODES } from '../actions';
+import { SET_FILE_HIERARCHY, SELECT_NODE, UNSELECT_NODE, TOGGLE_NODE_COLLAPSED, RESET_NODES } from '../actions';
 
 const initialData = {
   selection: [],
@@ -30,6 +30,17 @@ export default function sourceData(state=initialData, action) {
         ...state,
         selection: []
       };
+    case TOGGLE_NODE_COLLAPSED:
+      return {
+        ...state,
+        nodes: state.nodes.map((item, i) => {
+            return action.index === i ? {
+              ...item,
+              collapsed: !item.collapsed
+            } : item
+          })
+          .map(updateHiddenInHierachy)
+      };
     case RESET_NODES:
       return {
         ...state,
@@ -51,7 +62,8 @@ function normalize(tree, nodes=[], parents=[]) {
     let node = {
       ...leaf,
       parents,
-      collapsed: false,
+      collapsed: leaf.type === 'group',
+      hiddenInHierachy: false,
       children: []
     };
 
@@ -66,5 +78,14 @@ function normalize(tree, nodes=[], parents=[]) {
     }
   });
 
-  return nodes;
+  return nodes.map(updateHiddenInHierachy);
+}
+
+function updateHiddenInHierachy(item, i, arr) {
+  return {
+    ...item,
+    hiddenInHierachy: item.parents.reduce((acc, item) => {
+      return arr[item].collapsed || acc;
+    }, false)
+  }
 }
