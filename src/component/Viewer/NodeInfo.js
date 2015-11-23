@@ -42,14 +42,14 @@ export default class NodeInfo extends Component {
             node.left + node.width <= referenceNode.left ?
               <div className="node-info__right-offset"
                 style={{
-                  width: `${referenceNode.left - node.left - node.width}px`
+                  width: `${(referenceNode.left - node.left - node.width) * this.props.viewport.scale}px`
                 }}>
                 <span className="node-info__right-label">{`${referenceNode.left - node.left - node.width}px`}</span>
               </div>
             : node.left <= referenceNode.left ?
               <div className="node-info__right-offset"
                 style={{
-                  width: `${referenceNode.left - node.left}px`,
+                  width: `${(referenceNode.left - node.left) * this.props.viewport.scale}px`,
                   left: '0px'
                 }}>
                 <span className="node-info__right-label">{`${referenceNode.left - node.left}px`}</span>
@@ -57,14 +57,14 @@ export default class NodeInfo extends Component {
             : node.left <= referenceNode.left + referenceNode.width ?
               <div className="node-info__left-offset"
                 style={{
-                  width: `${node.left - referenceNode.left}px`
+                  width: `${(node.left - referenceNode.left) * this.props.viewport.scale}px`
                 }}>
                 <span className="node-info__left-label">{`${node.left - referenceNode.left}px`}</span>
               </div>
             :
               <div className="node-info__left-offset"
                 style={{
-                  width: `${node.left - referenceNode.left - referenceNode.width}px`
+                  width: `${(node.left - referenceNode.left - referenceNode.width) * this.props.viewport.scale}px`
                 }}>
                 <span className="node-info__left-label">{`${node.left - referenceNode.left - referenceNode.width}px`}</span>
               </div>
@@ -73,14 +73,14 @@ export default class NodeInfo extends Component {
             node.top + node.height <= referenceNode.top ?
               <div className="node-info__bottom-offset"
                 style={{
-                  height: `${referenceNode.top - node.top - node.height}px`
+                  height: `${(referenceNode.top - node.top - node.height) * this.props.viewport.scale}px`
                 }}>
                 <span className="node-info__bottom-label">{`${referenceNode.top - node.top - node.height}px`}</span>
               </div>
             : node.top <= referenceNode.top ?
               <div className="node-info__top-offset"
                 style={{
-                  height: `${referenceNode.top - node.top}px`,
+                  height: `${(referenceNode.top - node.top) * this.props.viewport.scale}px`,
                   top: '0px'
                 }}>
                 <span className="node-info__top-label">{`${referenceNode.top - node.top}px`}</span>
@@ -88,14 +88,14 @@ export default class NodeInfo extends Component {
             : node.top <= referenceNode.top + referenceNode.height ?
               <div className="node-info__top-offset"
                 style={{
-                  height: `${node.top - referenceNode.top}px`
+                  height: `${(node.top - referenceNode.top) * this.props.viewport.scale}px`
                 }}>
                 <span className="node-info__bottom-label">{`${node.top - referenceNode.top}px`}</span>
               </div>
             :
               <div className="node-info__top-offset"
                 style={{
-                  height: `${node.top - referenceNode.top - referenceNode.height}px`
+                  height: `${(node.top - referenceNode.top - referenceNode.height) * this.props.viewport.scale}px`
                 }}>
                 <span className="node-info__top-label">{`${node.top - referenceNode.top - referenceNode.height}px`}</span>
               </div>

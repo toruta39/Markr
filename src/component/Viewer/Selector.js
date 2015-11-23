@@ -218,6 +218,7 @@ export default class Selector extends Component {
   }
 
   render() {
+    // TODO separate panner
     return (
       <div className="viewer__viewport viewer__viewport--selector">
         {this.props.children}
