@@ -20,6 +20,10 @@ export default class Zoomer extends Component {
   componentDidMount() {
     let scaleLessThanOne = [0.05, 0.125, 0.17, 0.25, 0.33, 0.5, 0.67, 1];
 
+    Mousetrap.bind('command+0', () => {
+      // zoom to 100%
+      this.onUpdate(1);
+    });
     Mousetrap.bind('command+=', () => {
       // zoom in
       let result;
