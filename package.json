@@ -17,7 +17,7 @@
   "scripts": {
     "start": "./node_modules/.bin/electron .",
     "watch": "./node_modules/.bin/webpack --watch --progress --color",
-    "build": "./node_modules/.bin/electron-packager . $npm_package_productName --out=dist --ignore=dist --prune --asar --all --version=0.34.3"
+    "build": "./node_modules/.bin/electron-packager ./ $npm_package_productName --out=dist --ignore=dist --prune --platform=darwin --arch=x64 --version=0.34.3 --overwrite"
   },
   "files": [
     "index.js",
