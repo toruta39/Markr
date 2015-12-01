@@ -2,3 +2,5 @@ node_modules
 .tmp
 dist
 .DS_Store
+renderer.bundle.js
+renderer.bundle.js.map

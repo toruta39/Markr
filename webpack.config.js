@@ -2,10 +2,10 @@ const path = require('path');
 const stylus
 
 module.exports = {
-  entry: './src/index.js',
+  entry: './renderer/index.js',
   output: {
-    path: path.join(__dirname, 'dist'),
-    filename: 'bundle.js'
+    path: __dirname,
+    filename: 'renderer.bundle.js'
   },
   module: {
     loaders: [
@@ -13,7 +13,7 @@ module.exports = {
       {
         test: /\.scss$/,
         loader: 'style!css!sass?' +
-          ['', require('bourbon').includePaths, 'node_modules/normalize.css', 'src/style']
+          ['', require('bourbon').includePaths, 'node_modules/normalize.css']
           .map(encodeURIComponent).join('&includePaths[]=').slice(1)
       }
     ]
