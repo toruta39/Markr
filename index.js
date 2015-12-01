@@ -1,7 +1,7 @@
 'use strict';
 const app = require('app');
 const BrowserWindow = require('browser-window');
-const ipc = require('ipc');
+const ipcMain = require('electron').ipcMain;
 const dialog = require('dialog');
 
 // report crashes to the Electron project
@@ -16,7 +16,7 @@ function createMainWindow () {
     'title-bar-style': 'hidden'
   });
 
-  win.loadUrl(`file://${__dirname}/index.html`);
+  win.loadURL(`file://${__dirname}/index.html`);
   win.on('closed', onClosed);
 
   return win;
@@ -44,7 +44,7 @@ app.on('activate-with-no-open-windows', function () {
 });
 
 app.on('ready', function () {
-  ipc.on('application:select-directory', function(event, arg) {
+  ipcMain.on('application:select-directory', function(event, arg) {
     console.log(arg); // DEBUG
     event.returnValue = dialog.showOpenDialog({ properties: [ 'createDirectory', 'openDirectory' ]});
   });

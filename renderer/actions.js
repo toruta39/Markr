@@ -1,6 +1,6 @@
 const nRequire = global['re' + 'quire']; // for requiring packages from node env
 const psd = nRequire('psd');
-const ipc = nRequire('ipc');
+const ipc = nRequire('electron').ipcRenderer;
 const fs = nRequire('fs');
 const os = nRequire('os');
 const path = nRequire('path');
