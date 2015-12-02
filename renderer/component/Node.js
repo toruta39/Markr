@@ -17,7 +17,7 @@ export default class Node extends Component {
           this.props.onClick(e);
         } }>
         <div style={ {
-          paddingLeft: this.props.parents.length * 20
+          paddingLeft: this.props.parents.length * 10
         } }>
           { this.props.type === 'group' &&
             <span className={ classNames({

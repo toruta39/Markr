@@ -4,10 +4,6 @@ const BrowserWindow = require('electron').BrowserWindow;
 const ipcMain = require('electron').ipcMain;
 const dialog = require('electron').dialog;
 
-require('electron-debug')({
-  showDevTools: true
-});
-
 // report crashes to the Electron project
 require('crash-reporter').start();
 
