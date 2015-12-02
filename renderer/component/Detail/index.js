@@ -7,15 +7,30 @@ export default class Detail extends Component {
     const text = this.props.node.text;
 
     return text ? [
-      <li><div>Font name</div><div>{text.font.name}</div></li>,
-      <li><div>Sizes</div><div>{text.font.sizes.join()}</div></li>,
-      <li><div>Colors</div><div>{text.font.colors.join()}</div></li>,
-      <li><div>Alignments</div><div>{text.font.alignment.join()}</div></li>,
-      <li><div>Leadings</div><div>{text.font.leadings.join()}</div></li>,
-      <li>
-        <div>Text</div>
+      <div className="form-group">
+        <label>Font name</label>
+        <CopyableText value={ text.font.name } onCopy={ this.props.onCopy } />
+      </div>,
+      <div className="form-group">
+        <label>Font size</label>
+        <CopyableText value={ text.font.sizes[0] + '' } onCopy={ this.props.onCopy } />
+      </div>,
+      <div className="form-group">
+        <label>Color</label>
+        <CopyableText value={ text.font.colors[0].join() } onCopy={ this.props.onCopy } />
+      </div>,
+      <div className="form-group">
+        <label>Alignment</label>
+        <CopyableText value={ text.font.alignment[0] } onCopy={ this.props.onCopy } />
+      </div>,
+      <div className="form-group">
+        <label>Line height</label>
+        <CopyableText value={ text.font.leadings[0] + '' } onCopy={ this.props.onCopy } />
+      </div>,
+      <div className="form-group">
+        <label>Text</label>
         <CopyableTextarea value={text.value} onCopy={this.props.onCopy} />
-      </li>
+      </div>
     ] : null;
   }
 
@@ -23,31 +38,45 @@ export default class Detail extends Component {
     // TODO: add export as image feature
     return (
       <section className="pane-sm pane sidebar">
-        <h2 className="panel__title">Detail</h2>
-        {this.props.node ? (
-          <ul>
-            <li><div>Visibility</div><div>{this.props.node.visible}</div></li>
-            <li><div>Name</div><div>{this.props.node.name}</div></li>
-            <li><div>Type</div><div>{this.props.node.type}</div></li>
-            <li>
-              <div>Offset</div>
-              <div>
-                <CopyableText value={this.props.node.top} onCopy={this.props.onCopy} />
-                <CopyableText value={this.props.node.right} onCopy={this.props.onCopy} />
-                <CopyableText value={this.props.node.bottom} onCopy={this.props.onCopy} />
-                <CopyableText value={this.props.node.left} onCopy={this.props.onCopy} />
-              </div>
-            </li>
-            <li>
-              <div>Size</div>
-              <div>
-                <CopyableText value={this.props.node.width} onCopy={this.props.onCopy} />
-                <CopyableText value={this.props.node.height} onCopy={this.props.onCopy} />
-              </div>
-            </li>
-            {this.getTextDetail()}
-          </ul>
-        ) : null}
+        { this.props.node ? <div className="padded">
+          <div className="form-group">
+            <label>Visibility</label>
+            <CopyableText value={ this.props.node.visible } onCopy={ this.props.onCopy } />
+          </div>
+          <div className="form-group">
+            <label>Name</label>
+            <CopyableText value={ this.props.node.name } onCopy={ this.props.onCopy } />
+          </div>
+          <div className="form-group">
+            <label>Type</label>
+            <CopyableText value={ this.props.node.type } onCopy={ this.props.onCopy } />
+          </div>
+          { this.getTextDetail() }
+          <div className="form-group">
+            <label>Top</label>
+            <CopyableText value={ this.props.node.top } onCopy={ this.props.onCopy } />
+          </div>
+          <div className="form-group">
+            <label>Right</label>
+            <CopyableText value={ this.props.node.right } onCopy={ this.props.onCopy } />
+          </div>
+          <div className="form-group">
+            <label>Bottom</label>
+            <CopyableText value={ this.props.node.bottom } onCopy={ this.props.onCopy } />
+          </div>
+          <div className="form-group">
+            <label>Left</label>
+            <CopyableText value={ this.props.node.left } onCopy={ this.props.onCopy } />
+          </div>
+          <div className="form-group">
+            <label>Width</label>
+            <CopyableText value={ this.props.node.width } onCopy={ this.props.onCopy } />
+          </div>
+          <div className="form-group">
+            <label>Height</label>
+            <CopyableText value={ this.props.node.height } onCopy={ this.props.onCopy } />
+          </div>
+        </div> : null }
       </section>
     );
   }
