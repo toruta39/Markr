@@ -195,14 +195,15 @@ export default class Selector extends Component {
           this.props.onSelect(this.getDepthByPoint(this.state.psdX, this.state.psdY));
         }
 
-        if (e.button === 2) {
-          this.setState({
-            menuX: e.pageX,
-            menuY: e.pageY,
-            showCandidateNodes: true,
-            candidateNodeIndices: this.getVisibleHoveredNodesIndices()
-          });
-        }
+        // TODO: implement cancidate nodes
+        // if (e.button === 2) {
+        //   this.setState({
+        //     menuX: e.pageX,
+        //     menuY: e.pageY,
+        //     showCandidateNodes: true,
+        //     candidateNodeIndices: this.getVisibleHoveredNodesIndices()
+        //   });
+        // }
       }
 
       this.setState({ isMouseDown: false, isDragging: false });
