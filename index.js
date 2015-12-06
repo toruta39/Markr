@@ -5,7 +5,7 @@ const ipcMain = require('electron').ipcMain;
 const dialog = require('electron').dialog;
 
 // report crashes to the Electron project
-require('crash-reporter').start();
+require('electron').crashReporter.start();
 
 function createMainWindow () {
   const win = new BrowserWindow({
