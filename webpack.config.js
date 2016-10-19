@@ -1,5 +1,4 @@
 const path = require('path');
-const stylus
 
 module.exports = {
   entry: './renderer/index.js',

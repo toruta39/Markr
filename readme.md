@@ -1,6 +1,10 @@
-# Markr
+# Markr (Work in Progress)
 
 Inspect `.psd` files like in Chrome DevTools
+
+## Screenshot
+
+ ![markr](docs/markr.png)
 
 
 ## Dev
